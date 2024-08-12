@@ -1,3 +1,4 @@
+import { loadImage } from "@/utils/common";
 import Player from "./Player";
 
 class Game {
@@ -40,6 +41,10 @@ class Game {
 
   stopAnimation() {
     if (this.animationFrameId) cancelAnimationFrame(this.animationFrameId);
+  }
+
+  async prepareAssets() {
+    await this.player.prepareAssets();
   }
 }
 

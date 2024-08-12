@@ -8,16 +8,19 @@ export default function GamePage() {
 
   useEffect(() => {
     let game: Game | null;
-    if (canvasRef.current) {
-      const canvas = canvasRef.current;
-      canvas.width = 500;
-      canvas.height = 500;
+    (async () => {
+      if (canvasRef.current) {
+        const canvas = canvasRef.current;
+        canvas.width = 500;
+        canvas.height = 500;
 
-      const ctx = canvas.getContext("2d")!;
+        const ctx = canvas.getContext("2d")!;
 
-      game = new Game(canvas.width, canvas.height, ctx);
-      game.animate();
-    }
+        game = new Game(canvas.width, canvas.height, ctx);
+        await game.prepareAssets();
+        game.animate();
+      }
+    })();
 
     return () => {
       if (game) game.stopAnimation();
