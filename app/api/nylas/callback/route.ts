@@ -30,6 +30,7 @@ export async function GET(req: NextRequest) {
           client_secret: process.env.NYLAS_API_KEY,
           redirect_uri: "http://localhost:3000/game",
           grant_type: "authorization_code",
+          code_verifier: "nylas",
         }),
       }
     );
@@ -44,9 +45,9 @@ export async function GET(req: NextRequest) {
     const tokenData = await tokenResponse.json();
 
     const response = await databases.createDocument(
-      process.env.APPWRITE_DATABASE_ID || "", // Your database ID
-      process.env.APPWRITE_COLLECTION_ID || "", // Your collection ID
-      "unique()", // Generate a unique ID for the document
+      config.dbId,
+      config.grantCollectionId,
+      ID.unique(),
       {
         grant_id: tokenData.grant_id,
         access_token: tokenData.access_token,
