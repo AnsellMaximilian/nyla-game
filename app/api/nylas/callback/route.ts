@@ -19,8 +19,9 @@ export async function GET(req: NextRequest) {
   }
 
   try {
+    console.log("CODE", code);
     const tokenResponse = await fetch(
-      "https://api.us.nylas.com/v3/connect/token",
+      "https://api.eu.nylas.com/v3/connect/token",
       {
         method: "POST",
         headers: {
@@ -30,7 +31,7 @@ export async function GET(req: NextRequest) {
           code: code,
           client_id: process.env.NEXT_PUBLIC_NYLAS_CLIENT_ID,
           client_secret: process.env.NYLAS_API_KEY,
-          redirect_uri: "http://localhost:3000/game",
+          redirect_uri: "http://localhost:3000/api/nylas/callback",
           grant_type: "authorization_code",
           code_verifier: "nylas",
         }),
