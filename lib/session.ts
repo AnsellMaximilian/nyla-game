@@ -1,5 +1,5 @@
 import "server-only";
-import { SignJWT, jwtVerify } from "jose";
+import { SignJWT, jwtDecrypt, jwtVerify } from "jose";
 import { SessionPayload } from "@/type";
 import { cookies } from "next/headers";
 
@@ -19,8 +19,11 @@ export async function decrypt(session: string | undefined = "") {
     const { payload } = await jwtVerify(session, encodedKey, {
       algorithms: ["HS256"],
     });
+
     return payload;
   } catch (error) {
+    console.log(error);
+    if (error instanceof Error) console.log(error.message);
     console.log("Failed to verify session");
   }
 }

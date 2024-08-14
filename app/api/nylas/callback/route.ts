@@ -89,7 +89,7 @@ export async function GET(req: NextRequest) {
       }
     }
 
-    await createSession(grantRecord.grant_id);
+    await createSession(grantRecord.$id);
 
     // Set up a session or redirect the user
     const res = NextResponse.redirect(
