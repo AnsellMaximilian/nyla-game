@@ -1,4 +1,5 @@
 import { Models } from "appwrite";
+import { JWTPayload } from "jose";
 import { Dispatch, SetStateAction } from "react";
 
 export type ApiResponse<T> = {
@@ -46,3 +47,5 @@ export type GrantRecord = Models.Document & {
   token_type: string;
   id_token: string;
 };
+
+export type SessionData = JWTPayload & SessionPayload;

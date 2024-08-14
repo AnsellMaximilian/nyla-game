@@ -1,6 +1,6 @@
 import "server-only";
 import { SignJWT, jwtDecrypt, jwtVerify } from "jose";
-import { SessionPayload } from "@/type";
+import { SessionData, SessionPayload } from "@/type";
 import { cookies } from "next/headers";
 
 const secretKey = process.env.SESSION_SECRET;
@@ -20,7 +20,7 @@ export async function decrypt(session: string | undefined = "") {
       algorithms: ["HS256"],
     });
 
-    return payload;
+    return payload as SessionData;
   } catch (error) {
     console.log(error);
     if (error instanceof Error) console.log(error.message);
@@ -39,4 +39,8 @@ export async function createSession(userId: string) {
     sameSite: "lax",
     path: "/",
   });
+}
+
+export function deleteSession() {
+  cookies().delete("session");
 }
