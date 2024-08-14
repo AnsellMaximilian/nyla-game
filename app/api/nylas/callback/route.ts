@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { ID, Permission, Role } from "node-appwrite";
+import { ID, Permission, Query, Role } from "node-appwrite";
 
 import { config } from "@/lib/appwrite";
 import { databases } from "@/lib/appwriteNode";
@@ -38,8 +38,6 @@ export async function GET(req: NextRequest) {
       }
     );
 
-    console.log("TOKEN RESPONSE", await tokenResponse.json());
-
     if (!tokenResponse.ok) {
       return NextResponse.json(
         { error: "Failed to exchange code for token." },
@@ -53,17 +51,24 @@ export async function GET(req: NextRequest) {
     let grantRecord: GrantRecord | null = null;
 
     try {
-      grantRecord = (await databases.getDocument(
+      const res = await databases.listDocuments(
         config.dbId,
         config.grantCollectionId,
-        tokenData.email as string
-      )) as GrantRecord;
+        [Query.equal("email", tokenData.email)]
+      );
+
+      if (res.total < 1) {
+        throw new Error("No grant saved.");
+      } else {
+        grantRecord = res.documents[0] as GrantRecord;
+      }
+      console.log("FOUND CREATED");
     } catch (error) {
       try {
         grantRecord = (await databases.createDocument(
           config.dbId,
           config.grantCollectionId,
-          tokenData.email,
+          ID.unique(),
           {
             grant_id: tokenData.grant_id,
             access_token: tokenData.access_token,
@@ -75,6 +80,8 @@ export async function GET(req: NextRequest) {
           }
         )) as GrantRecord;
       } catch (error) {
+        console.log("UPPER", error);
+        if (error instanceof Error) console.log(error.message);
         return NextResponse.json(
           { error: "An unexpected error occurred." },
           { status: 500 }
@@ -86,11 +93,13 @@ export async function GET(req: NextRequest) {
 
     // Set up a session or redirect the user
     const res = NextResponse.redirect(
-      `${process.env.NEXT_PUBLIC_BASE_URL}/dashboard`
+      `${process.env.NEXT_PUBLIC_BASE_URL}/game`
     );
 
     return res;
   } catch (error) {
+    console.log("BOTTOM", error);
+    if (error instanceof Error) console.log(error.message);
     return NextResponse.json(
       { error: "An unexpected error occurred." },
       { status: 500 }
