@@ -18,11 +18,13 @@ export default function GamePage() {
 
         game = new Game(canvas.width, canvas.height, ctx);
         await game.prepareAssets();
+        console.log("start game loop");
         game.animate();
       }
     })();
 
     return () => {
+      console.log("RETURNING", game);
       if (game) game.stopAnimation();
     };
   }, [canvasRef.current]);

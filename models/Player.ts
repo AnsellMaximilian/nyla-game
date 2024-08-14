@@ -17,7 +17,9 @@ class Player {
     this.y = this.game.height - this.height;
   }
 
-  update() {}
+  update() {
+    this.x++;
+  }
 
   draw(ctx: CanvasRenderingContext2D) {
     if (this.image) {

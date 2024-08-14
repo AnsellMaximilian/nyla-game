@@ -26,14 +26,19 @@ class Game {
     this.player = new Player(this);
   }
 
-  update() {}
+  update() {
+    this.player.update();
+  }
 
   draw() {
     this.player.draw(this.context);
   }
 
   animate() {
+    console.log("ANIMATE START", this);
     if (this) {
+      console.log("animate");
+      this.update();
       this.draw();
       this.animationFrameId = requestAnimationFrame(this.animate);
     }
