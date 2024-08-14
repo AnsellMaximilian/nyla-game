@@ -1,13 +1,15 @@
 "use client";
 
 import Game from "@/models/Game";
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useLayoutEffect, useRef } from "react";
 
 export default function GamePage() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
-  useEffect(() => {
-    let game: Game | null;
+  useLayoutEffect(() => {
+    let game: Game;
+    let frameId: number;
+
     (async () => {
       if (canvasRef.current) {
         const canvas = canvasRef.current;
@@ -18,16 +20,24 @@ export default function GamePage() {
 
         game = new Game(canvas.width, canvas.height, ctx);
         await game.prepareAssets();
-        console.log("start game loop");
-        game.animate();
+        // game.animate();
+
+        const animate = () => {
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          game.update();
+          game.draw();
+          frameId = requestAnimationFrame(animate);
+        };
+
+        animate();
       }
     })();
 
     return () => {
-      console.log("RETURNING", game);
-      if (game) game.stopAnimation();
+      cancelAnimationFrame(frameId);
+      game.cleanUp();
     };
-  }, [canvasRef.current]);
+  }, [canvasRef]);
   return (
     <div>
       <canvas

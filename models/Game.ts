@@ -1,5 +1,6 @@
 import { loadImage } from "@/utils/common";
 import Player from "./Player";
+import { InputHandler } from "./InputHandler";
 
 class Game {
   width: number;
@@ -8,8 +9,7 @@ class Game {
   player: Player;
 
   context: CanvasRenderingContext2D;
-
-  private animationFrameId: number | null;
+  inputHandler: InputHandler;
 
   constructor(
     width: number,
@@ -21,35 +21,25 @@ class Game {
 
     this.context = context;
 
-    this.animationFrameId = null;
+    this.inputHandler = new InputHandler(this);
 
     this.player = new Player(this);
   }
 
   update() {
-    this.player.update();
+    this.player.update(this.inputHandler.keys);
   }
 
   draw() {
     this.player.draw(this.context);
   }
 
-  animate() {
-    console.log("ANIMATE START", this);
-    if (this) {
-      console.log("animate");
-      this.update();
-      this.draw();
-      this.animationFrameId = requestAnimationFrame(this.animate);
-    }
-  }
-
-  stopAnimation() {
-    if (this.animationFrameId) cancelAnimationFrame(this.animationFrameId);
-  }
-
   async prepareAssets() {
     await this.player.prepareAssets();
+  }
+
+  cleanUp() {
+    this.inputHandler.cleanUp();
   }
 }
 
