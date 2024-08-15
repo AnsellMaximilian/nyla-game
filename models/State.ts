@@ -19,7 +19,7 @@ export class Sitting extends State {
   }
 
   enter() {
-    this.player.frameY = 5;
+    this.player.frameY = 1;
   }
 
   handleInput(keys: string[]) {
@@ -37,7 +37,7 @@ export class Running extends State {
   }
 
   enter() {
-    this.player.frameY = 3;
+    this.player.frameY = 0;
   }
 
   handleInput(keys: string[]) {
@@ -58,7 +58,7 @@ export class Jumping extends State {
 
   enter() {
     if (this.player.onGround()) this.player.vy -= 20;
-    this.player.frameY = 1;
+    this.player.frameY = 2;
   }
 
   handleInput(keys: string[]) {

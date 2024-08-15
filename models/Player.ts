@@ -25,8 +25,8 @@ class Player {
 
   constructor(game: Game) {
     this.game = game;
-    this.width = 100;
-    this.height = 91.3;
+    this.width = 32;
+    this.height = 32;
     this.x = 0;
     this.y = this.game.height - this.height;
     this.speed = 0;
@@ -91,7 +91,7 @@ class Player {
   }
 
   async prepareAssets() {
-    this.image = await loadImage("/images/testsprite.png");
+    this.image = await loadImage("/images/nyla-spritesheet.png");
   }
 
   onGround() {
