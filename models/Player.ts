@@ -31,7 +31,7 @@ class Player {
     this.width = 128;
     this.height = 128;
     this.x = 0;
-    this.y = this.game.height - this.height;
+    this.y = this.game.height - this.height - this.game.groundMargin;
     this.speed = 0;
     this.maxSpeed = 5;
     this.vy = 0;
@@ -108,11 +108,12 @@ class Player {
   }
 
   onGround() {
-    return this.y >= this.game.height - this.height;
+    return this.y >= this.game.height - this.height - this.game.groundMargin;
   }
 
-  setState(state: PlayerState) {
+  setState(state: PlayerState, speed: number) {
     this.currentState = this.states[state];
+    this.game.speed = this.game.maxSpeed * speed;
     this.currentState.enter();
   }
 }
