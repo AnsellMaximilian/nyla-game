@@ -26,8 +26,8 @@ class Game {
     this.player = new Player(this);
   }
 
-  update() {
-    this.player.update(this.inputHandler.keys);
+  update(deltaTime: number) {
+    this.player.update(this.inputHandler.keys, deltaTime);
   }
 
   draw() {

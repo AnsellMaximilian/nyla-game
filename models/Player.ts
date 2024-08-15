@@ -22,6 +22,9 @@ class Player {
   frameX: number;
   frameY: number;
   maxFrame: number;
+  fps: number;
+  frameInterval: number;
+  frameTimer: number;
 
   constructor(game: Game) {
     this.game = game;
@@ -48,9 +51,12 @@ class Player {
     this.frameX = 0;
     this.frameY = 0;
     this.maxFrame = 5;
+    this.fps = 20;
+    this.frameInterval = 1000 / this.fps;
+    this.frameTimer = 0;
   }
 
-  update(keys: string[]) {
+  update(keys: string[], deltaTime: number) {
     this.currentState.handleInput(keys);
     this.x += this.speed;
     if (keys.includes("ArrowRight")) this.speed = this.maxSpeed;
@@ -70,8 +76,15 @@ class Player {
     else this.vy = 0;
 
     // sprite
-    if (this.frameX < this.maxFrame) this.frameX++;
-    else this.frameX = 0;
+    // if (this.frameX < this.maxFrame) this.frameX++;
+    // else this.frameX = 0;
+    if (this.frameTimer > this.frameInterval) {
+      this.frameTimer = 0;
+      if (this.frameX < this.maxFrame) this.frameX++;
+      else this.frameX = 0;
+    } else {
+      this.frameTimer += deltaTime;
+    }
   }
 
   draw(ctx: CanvasRenderingContext2D) {

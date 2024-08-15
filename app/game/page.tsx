@@ -21,15 +21,18 @@ export default function GamePage() {
         game = new Game(canvas.width, canvas.height, ctx);
         await game.prepareAssets();
         // game.animate();
+        let lastTime = 0;
 
-        const animate = () => {
+        const animate = (timeStamp: number) => {
+          const deltaTime = timeStamp - lastTime;
+          lastTime = timeStamp;
           ctx.clearRect(0, 0, canvas.width, canvas.height);
-          game.update();
+          game.update(deltaTime);
           game.draw();
           frameId = requestAnimationFrame(animate);
         };
 
-        animate();
+        animate(0);
       }
     })();
 
