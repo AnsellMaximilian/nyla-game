@@ -28,8 +28,8 @@ class Player {
 
   constructor(game: Game) {
     this.game = game;
-    this.width = 32;
-    this.height = 32;
+    this.width = 128;
+    this.height = 128;
     this.x = 0;
     this.y = this.game.height - this.height;
     this.speed = 0;
