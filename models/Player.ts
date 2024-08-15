@@ -33,7 +33,7 @@ class Player {
     this.x = 0;
     this.y = this.game.height - this.height;
     this.speed = 0;
-    this.maxSpeed = 10;
+    this.maxSpeed = 5;
     this.vy = 0;
     this.weight = 0.5;
 
@@ -44,8 +44,6 @@ class Player {
       new Jumping(this),
       new Falling(this),
     ];
-    this.currentState = this.states[0];
-    this.currentState.enter();
 
     // animation
     this.frameX = 0;
@@ -54,6 +52,10 @@ class Player {
     this.fps = 5;
     this.frameInterval = 1000 / this.fps;
     this.frameTimer = 0;
+
+    // enter state
+    this.currentState = this.states[0];
+    this.currentState.enter();
   }
 
   update(keys: string[], deltaTime: number) {
@@ -76,8 +78,6 @@ class Player {
     else this.vy = 0;
 
     // sprite
-    // if (this.frameX < this.maxFrame) this.frameX++;
-    // else this.frameX = 0;
     if (this.frameTimer > this.frameInterval) {
       this.frameTimer = 0;
       if (this.frameX < this.maxFrame) this.frameX++;

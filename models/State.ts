@@ -28,6 +28,8 @@ export class Sitting extends State {
   handleInput(keys: string[]) {
     if (keys.includes("ArrowLeft") || keys.includes("ArrowRight")) {
       this.player.setState(PlayerState.RUNNING);
+    } else if (keys.includes("ArrowUp")) {
+      this.player.setState(PlayerState.JUMPING);
     }
   }
 }
@@ -46,14 +48,14 @@ export class Running extends State {
   }
 
   handleInput(keys: string[]) {
+    if (!(keys.includes("ArrowLeft") || keys.includes("ArrowRight"))) {
+      this.player.setState(PlayerState.SITTING);
+    }
     if (keys.includes("ArrowDown")) {
       this.player.setState(PlayerState.SITTING);
     } else if (keys.includes("ArrowUp")) {
       this.player.setState(PlayerState.JUMPING);
     }
-    // else if (!(keys.includes("ArrowLeft") || keys.includes("ArrowRight"))) {
-    //   this.player.setState(PlayerState.SITTING);
-    // }
   }
 }
 
@@ -95,7 +97,7 @@ export class Falling extends State {
 
   handleInput(keys: string[]) {
     if (this.player.onGround()) {
-      this.player.setState(PlayerState.RUNNING);
+      this.player.setState(PlayerState.SITTING);
     }
   }
 }
