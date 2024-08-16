@@ -13,7 +13,7 @@ export default function GamePage() {
     (async () => {
       if (canvasRef.current) {
         const canvas = canvasRef.current;
-        canvas.width = 500;
+        canvas.width = 1000;
         canvas.height = 500;
 
         const ctx = canvas.getContext("2d")!;
