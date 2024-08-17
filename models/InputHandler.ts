@@ -25,8 +25,7 @@ export class InputHandler {
       this.keys.indexOf(e.key) === -1
     ) {
       this.keys.push(key);
-      console.log("TEST");
-    }
+    } else if (e.key === "d") this.game.debug = !this.game.debug;
   }
 
   handleKeyUp(e: KeyboardEvent) {

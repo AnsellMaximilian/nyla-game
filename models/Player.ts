@@ -59,6 +59,7 @@ class Player {
   }
 
   update(keys: string[], deltaTime: number) {
+    this.checkCollisons();
     this.currentState.handleInput(keys);
     this.x += this.speed;
     if (keys.includes("ArrowRight")) this.speed = this.maxSpeed;
@@ -88,6 +89,9 @@ class Player {
   }
 
   draw(ctx: CanvasRenderingContext2D) {
+    if (this.game.debug)
+      ctx.strokeRect(this.x, this.y, this.width, this.height);
+
     if (this.image) {
       ctx.drawImage(
         this.image,
@@ -115,6 +119,23 @@ class Player {
     this.currentState = this.states[state];
     this.game.speed = this.game.maxSpeed * speed;
     this.currentState.enter();
+  }
+
+  checkCollisons() {
+    this.game.enemies.forEach((enemy) => {
+      if (
+        enemy.x < this.x + this.width &&
+        enemy.x + enemy.width > this.x &&
+        enemy.y < this.y + this.height &&
+        enemy.y + enemy.height > this.y
+      ) {
+        // collision
+        console.log("Collison");
+        enemy.markedForDeletion = true;
+        this.game.score++;
+      } else {
+      }
+    });
   }
 }
 

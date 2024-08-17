@@ -43,6 +43,8 @@ export class Enemy {
   }
 
   draw(ctx: CanvasRenderingContext2D) {
+    if (this.game.debug)
+      ctx.strokeRect(this.x, this.y, this.width, this.height);
     if (this.image) {
       ctx.drawImage(
         this.image,

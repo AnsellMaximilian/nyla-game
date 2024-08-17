@@ -23,6 +23,11 @@ class Game {
   enemyTimer = 0;
   enemyInterval = 1000;
 
+  debug = false;
+
+  // scoring
+  score: number;
+
   constructor(
     width: number,
     height: number,
@@ -45,6 +50,8 @@ class Game {
     this.player = new Player(this);
 
     this.enemies = [];
+
+    this.score = 0;
   }
 
   update(deltaTime: number) {
