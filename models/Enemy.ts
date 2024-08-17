@@ -43,8 +43,11 @@ export class Enemy {
   }
 
   draw(ctx: CanvasRenderingContext2D) {
-    if (this.game.debug)
+    if (this.game.debug) {
+      ctx.strokeStyle = "red";
       ctx.strokeRect(this.x, this.y, this.width, this.height);
+    } else ctx.strokeStyle = "black";
+
     if (this.image) {
       ctx.drawImage(
         this.image,

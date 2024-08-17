@@ -3,6 +3,7 @@ import Player from "./Player";
 import { InputHandler } from "./InputHandler";
 import { Background } from "./Background";
 import { Enemy, FlyingEnemy, GroundEnemy } from "./Enemy";
+import { UI } from "./UI";
 
 class Game {
   width: number;
@@ -11,6 +12,8 @@ class Game {
   groundMargin: number;
 
   player: Player;
+
+  ui: UI;
 
   context: CanvasRenderingContext2D;
   inputHandler: InputHandler;
@@ -27,6 +30,8 @@ class Game {
 
   // scoring
   score: number;
+
+  fontColor = "black";
 
   constructor(
     width: number,
@@ -48,6 +53,8 @@ class Game {
     this.inputHandler = new InputHandler(this);
 
     this.player = new Player(this);
+
+    this.ui = new UI(this);
 
     this.enemies = [];
 
@@ -81,6 +88,8 @@ class Game {
       // console.log(enemy.y);
       enemy.draw(this.context);
     });
+
+    this.ui.draw(this.context);
   }
 
   async prepareAssets() {
