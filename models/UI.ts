@@ -11,12 +11,9 @@ export class UI {
   }
 
   draw(ctx: CanvasRenderingContext2D) {
-    ctx.font = this.fontSize + "px " + this.fontFamily;
-    ctx.textAlign = "left";
-    ctx.fillStyle = this.game.fontColor;
-
-    ctx.lineWidth = 5;
-    ctx.strokeRect(20, 20, 300, 30);
+    // ctx.font = this.fontSize + "px " + this.fontFamily;
+    // ctx.textAlign = "left";
+    // ctx.fillStyle = this.game.fontColor;
     ctx.fillStyle = "red";
     ctx.fillRect(
       20,
@@ -24,6 +21,9 @@ export class UI {
       300 * (this.game.player.currentHealth / this.game.player.maxHealth),
       30
     );
+    ctx.lineWidth = 5;
+    ctx.strokeStyle = "black";
+    ctx.strokeRect(20, 20, 300, 30);
 
     // reset
     ctx.lineWidth = 1;
