@@ -21,6 +21,7 @@ export class InputHandler {
         key === "ArrowUp" ||
         key === "ArrowLeft" ||
         key === "ArrowRight" ||
+        key === "c" ||
         key === "Enter") &&
       this.keys.indexOf(e.key) === -1
     ) {
@@ -36,6 +37,7 @@ export class InputHandler {
       key === "ArrowUp" ||
       key === "ArrowLeft" ||
       key === "ArrowRight" ||
+      key === "c" ||
       key === "Enter"
     ) {
       this.keys.splice(this.keys.indexOf(key), 1);

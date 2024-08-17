@@ -101,3 +101,24 @@ export class Falling extends State {
     }
   }
 }
+
+export class Slashing extends State {
+  player: Player;
+  constructor(player: Player) {
+    super(PlayerState.SLASHING);
+    this.player = player;
+  }
+
+  enter() {
+    this.player.frameX = 0;
+    if (this.player.onGround()) this.player.vy -= 30;
+    this.player.maxFrame = 7;
+    this.player.frameY = 2;
+  }
+
+  handleInput(keys: string[]) {
+    if (this.player.onGround()) {
+      this.player.setState(PlayerState.SITTING, 0);
+    }
+  }
+}

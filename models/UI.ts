@@ -15,6 +15,6 @@ export class UI {
     ctx.textAlign = "left";
     ctx.fillStyle = this.game.fontColor;
 
-    ctx.fillText("Score: " + this.game.score, 20, 50);
+    ctx.fillText("Health: " + this.game.player.currentHealth, 20, 50);
   }
 }

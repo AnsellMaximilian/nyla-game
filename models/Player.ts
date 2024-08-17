@@ -1,7 +1,7 @@
 import { loadImage } from "@/utils/common";
 import Game from "./Game";
 import { InputHandler } from "./InputHandler";
-import { Falling, Jumping, Running, Sitting, State } from "./State";
+import { Falling, Jumping, Running, Sitting, Slashing, State } from "./State";
 import { PlayerState } from "@/const/states";
 
 class Player {
@@ -14,9 +14,11 @@ class Player {
   speed: number;
   maxSpeed: number;
   weight: number;
-  image: CanvasImageSource | null = null;
   states: State[];
   currentState: State;
+
+  image: CanvasImageSource | null = null;
+  attackImage: CanvasImageSource | null = null;
 
   // animation
   frameX: number;
@@ -25,6 +27,17 @@ class Player {
   fps: number;
   frameInterval: number;
   frameTimer: number;
+
+  // attack
+  isAttacking = false;
+  attackDuration = 300;
+  attackTimer = 0;
+  isAttackOnCooldown = false;
+  currentAttackFrame = 0;
+
+  // health
+  maxHealth = 1000;
+  currentHealth = 1000;
 
   constructor(game: Game) {
     this.game = game;
@@ -43,6 +56,7 @@ class Player {
       new Running(this),
       new Jumping(this),
       new Falling(this),
+      // new Slashing(this),
     ];
 
     // animation
@@ -56,10 +70,17 @@ class Player {
     // enter state
     this.currentState = this.states[0];
     this.currentState.enter();
+
+    // attack
+    // attack duration
+    // attack cooldown
   }
 
   update(keys: string[], deltaTime: number) {
     this.checkCollisons();
+    if (this.isAttacking) {
+      this.checkAttackCollisons();
+    }
     this.currentState.handleInput(keys);
     this.x += this.speed;
     if (keys.includes("ArrowRight")) this.speed = this.maxSpeed;
@@ -70,8 +91,23 @@ class Player {
     if (this.x > this.game.width - this.width)
       this.x = this.game.width - this.width;
 
-    // jumping
-    // if (keys.includes("ArrowUp") && this.onGround()) this.vy -= 20;
+    // attacking
+    if (keys.includes("c")) {
+      if (!this.isAttackOnCooldown) this.isAttacking = true;
+    }
+
+    if (this.attackTimer > this.attackDuration) {
+      this.attackTimer = 0;
+      if (this.isAttacking) {
+        this.isAttacking = false;
+        this.isAttackOnCooldown = true;
+        this.currentAttackFrame = this.currentAttackFrame === 0 ? 1 : 0;
+      } else {
+        this.isAttackOnCooldown = false;
+      }
+    } else {
+      this.attackTimer += deltaTime;
+    }
 
     this.y += this.vy;
 
@@ -109,10 +145,25 @@ class Player {
         this.height
       );
     }
+
+    if (this.isAttacking && this.attackImage) {
+      ctx.drawImage(
+        this.attackImage,
+        this.currentAttackFrame * 128,
+        0,
+        128,
+        128,
+        this.x + 128,
+        this.y,
+        128,
+        128
+      );
+    }
   }
 
   async prepareAssets() {
     this.image = await loadImage("/images/nyla-spritesheet.png");
+    this.attackImage = await loadImage("/images/slash.png");
   }
 
   onGround() {
@@ -134,7 +185,21 @@ class Player {
         enemy.y + enemy.height > this.y
       ) {
         // collision
-        console.log("Collison");
+        if (this.currentHealth - 1 > 0) this.currentHealth--;
+      } else {
+      }
+    });
+  }
+
+  checkAttackCollisons() {
+    this.game.enemies.forEach((enemy) => {
+      if (
+        enemy.x < this.x + this.width + 128 &&
+        enemy.x + enemy.width > this.x + 128 &&
+        enemy.y < this.y + this.height &&
+        enemy.y + enemy.height > this.y
+      ) {
+        // collision
         enemy.markedForDeletion = true;
         this.game.score++;
       } else {

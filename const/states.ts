@@ -3,4 +3,5 @@ export enum PlayerState {
   RUNNING,
   JUMPING,
   FALLING,
+  SLASHING,
 }
