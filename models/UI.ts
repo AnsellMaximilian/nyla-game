@@ -15,6 +15,18 @@ export class UI {
     ctx.textAlign = "left";
     ctx.fillStyle = this.game.fontColor;
 
-    ctx.fillText("Health: " + this.game.player.currentHealth, 20, 50);
+    ctx.lineWidth = 5;
+    ctx.strokeRect(20, 20, 300, 30);
+    ctx.fillStyle = "red";
+    ctx.fillRect(
+      20,
+      20,
+      300 * (this.game.player.currentHealth / this.game.player.maxHealth),
+      30
+    );
+
+    // reset
+    ctx.lineWidth = 1;
+    ctx.fillStyle = "black";
   }
 }
