@@ -17,8 +17,8 @@ class Player {
   states: State[];
   currentState: State;
 
-  image: CanvasImageSource | null = null;
-  attackImage: CanvasImageSource | null = null;
+  static image: CanvasImageSource | null = null;
+  static attackImage: CanvasImageSource | null = null;
 
   // animation
   frameX: number;
@@ -90,8 +90,8 @@ class Player {
     else this.speed = 0;
 
     if (this.x < 0) this.x = 0;
-    if (this.x > this.game.width - this.width - 50)
-      this.x = this.game.width - this.width - 50;
+    if (this.x > this.game.width - this.width - 300)
+      this.x = this.game.width - this.width - 300;
 
     // attacking
     if (keys.includes("c")) {
@@ -135,9 +135,9 @@ class Player {
       ctx.strokeStyle = "black";
     }
 
-    if (this.image) {
+    if (Player.image) {
       ctx.drawImage(
-        this.image,
+        Player.image,
         this.frameX * this.width,
         this.frameY * this.height,
         this.width,
@@ -149,9 +149,9 @@ class Player {
       );
     }
 
-    if (this.isAttacking && this.attackImage) {
+    if (this.isAttacking && Player.attackImage) {
       ctx.drawImage(
-        this.attackImage,
+        Player.attackImage,
         this.currentAttackFrame * 128,
         0,
         128,
@@ -164,7 +164,7 @@ class Player {
     }
   }
 
-  async prepareAssets() {
+  static async prepareAssets() {
     this.image = await loadImage("/images/nyla-spritesheet.png");
     this.attackImage = await loadImage("/images/slash.png");
   }

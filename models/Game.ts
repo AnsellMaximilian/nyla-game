@@ -4,6 +4,7 @@ import { InputHandler } from "./InputHandler";
 import { Background } from "./Background";
 import { Enemy, FlyingEnemy, GroundEnemy } from "./Enemy";
 import { UI } from "./UI";
+import { Boss, EmailBoss } from "@/lib/Boss";
 
 class Game {
   width: number;
@@ -33,6 +34,8 @@ class Game {
 
   fontColor = "black";
 
+  boss: Boss;
+
   constructor(
     width: number,
     height: number,
@@ -59,6 +62,8 @@ class Game {
     this.enemies = [];
 
     this.score = 0;
+
+    this.boss = new EmailBoss(this);
   }
 
   update(deltaTime: number) {
@@ -67,36 +72,41 @@ class Game {
     this.player.update(this.inputHandler.keys, deltaTime);
 
     // enemies
-    if (this.enemyTimer > this.enemyInterval) {
-      this.addEnemy();
-      this.enemyTimer = 0;
-    } else {
-      this.enemyTimer += deltaTime;
-    }
+    // if (this.enemyTimer > this.enemyInterval) {
+    //   this.addEnemy();
+    //   this.enemyTimer = 0;
+    // } else {
+    //   this.enemyTimer += deltaTime;
+    // }
 
-    this.enemies.forEach((enemy) => {
-      enemy.update(deltaTime);
-      if (enemy.markedForDeletion)
-        this.enemies.splice(this.enemies.indexOf(enemy), 1);
-    });
+    // this.enemies.forEach((enemy) => {
+    //   enemy.update(deltaTime);
+    //   if (enemy.markedForDeletion)
+    //     this.enemies.splice(this.enemies.indexOf(enemy), 1);
+    // });
+
+    this.boss.update(deltaTime);
   }
 
   draw() {
     this.background.draw(this.context);
     this.player.draw(this.context);
 
-    this.enemies.forEach((enemy) => {
-      // console.log(enemy.y);
-      enemy.draw(this.context);
-    });
+    // this.enemies.forEach((enemy) => {
+    //   // console.log(enemy.y);
+    //   enemy.draw(this.context);
+    // });
+
+    this.boss.draw(this.context);
 
     this.ui.draw(this.context);
   }
 
-  async prepareAssets() {
-    await this.player.prepareAssets();
-    await this.background.prepareAssets();
+  static async prepareAssets() {
+    await Player.prepareAssets();
+    await Background.prepareAssets();
     await Enemy.prepareAssets();
+    await Boss.prepareAssets();
   }
 
   cleanUp() {

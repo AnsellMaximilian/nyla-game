@@ -17,9 +17,8 @@ export default function GamePage() {
         canvas.height = 500;
 
         const ctx = canvas.getContext("2d")!;
-
+        await Game.prepareAssets();
         game = new Game(canvas.width, canvas.height, ctx);
-        await game.prepareAssets();
         // game.animate();
         let lastTime = 0;
 
@@ -38,7 +37,7 @@ export default function GamePage() {
 
     return () => {
       cancelAnimationFrame(frameId);
-      game.cleanUp();
+      if (game) game.cleanUp();
     };
   }, [canvasRef]);
   return (

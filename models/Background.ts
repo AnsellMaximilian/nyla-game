@@ -59,11 +59,11 @@ export class Background {
   game: Game;
   width: number;
   height: number;
-  layer1Image: CanvasImageSource | null = null;
-  layer2Image: CanvasImageSource | null = null;
-  layer3Image: CanvasImageSource | null = null;
-  layer4Image: CanvasImageSource | null = null;
-  layer5Image: CanvasImageSource | null = null;
+  static layer1Image: CanvasImageSource | null = null;
+  static layer2Image: CanvasImageSource | null = null;
+  static layer3Image: CanvasImageSource | null = null;
+  static layer4Image: CanvasImageSource | null = null;
+  static layer5Image: CanvasImageSource | null = null;
   layer1: Layer | null = null;
   layer2: Layer | null = null;
   layer3: Layer | null = null;
@@ -75,48 +75,41 @@ export class Background {
     this.game = game;
     this.width = 1667;
     this.height = 500;
-  }
 
-  async prepareAssets() {
-    this.layer1Image = await loadImage("/images/layer-1.png");
-    this.layer2Image = await loadImage("/images/layer-2.png");
-    this.layer3Image = await loadImage("/images/layer-3.png");
-    this.layer4Image = await loadImage("/images/layer-4.png");
-    this.layer5Image = await loadImage("/images/layer-5.png");
     this.layer1 = new Layer(
       this.game,
       this.width,
       this.height,
       0,
-      this.layer1Image
+      Background.layer1Image!
     );
     this.layer2 = new Layer(
       this.game,
       this.width,
       this.height,
       0.2,
-      this.layer2Image
+      Background.layer2Image!
     );
     this.layer3 = new Layer(
       this.game,
       this.width,
       this.height,
       0.4,
-      this.layer3Image
+      Background.layer3Image!
     );
     this.layer4 = new Layer(
       this.game,
       this.width,
       this.height,
       0.8,
-      this.layer4Image
+      Background.layer4Image!
     );
     this.layer5 = new Layer(
       this.game,
       this.width,
       this.height,
       1,
-      this.layer5Image
+      Background.layer5Image!
     );
     this.backgroundLayers = [
       this.layer1,
@@ -125,6 +118,14 @@ export class Background {
       this.layer4,
       this.layer5,
     ];
+  }
+
+  static async prepareAssets() {
+    this.layer1Image = await loadImage("/images/layer-1.png");
+    this.layer2Image = await loadImage("/images/layer-2.png");
+    this.layer3Image = await loadImage("/images/layer-3.png");
+    this.layer4Image = await loadImage("/images/layer-4.png");
+    this.layer5Image = await loadImage("/images/layer-5.png");
   }
 
   update() {
