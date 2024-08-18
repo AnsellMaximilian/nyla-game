@@ -199,7 +199,7 @@ class Player {
   setState(state: PlayerState, speed: number) {
     this.currentState = this.states[state];
     this.game.speed = this.game.maxSpeed * speed;
-    this.currentState.enter();
+    this.currentState.enter(this.isBackwards);
   }
 
   checkCollisons() {

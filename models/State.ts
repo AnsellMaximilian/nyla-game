@@ -7,7 +7,7 @@ export class State {
   constructor(state: PlayerState) {
     this.state = state;
   }
-  enter() {}
+  enter(isBackwards = false) {}
 
   handleInput(keys: string[]) {}
 }
@@ -19,11 +19,11 @@ export class Sitting extends State {
     this.player = player;
   }
 
-  enter() {
+  enter(isBackwards = false) {
     this.player.frameX = 0;
     this.player.maxFrame = 6;
 
-    this.player.frameY = 2;
+    this.player.frameY = isBackwards ? 5 : 2;
   }
 
   handleInput(keys: string[]) {
@@ -42,7 +42,7 @@ export class Running extends State {
     this.player = player;
   }
 
-  enter() {
+  enter(isBackwards = false) {
     this.player.frameX = 0;
     this.player.maxFrame = 4;
     this.player.frameY = 0;
@@ -68,7 +68,7 @@ export class Jumping extends State {
     this.player = player;
   }
 
-  enter() {
+  enter(isBackwards = false) {
     if (this.player.onGround()) this.player.vy -= 25;
 
     this.player.frameX = 0;
@@ -90,7 +90,7 @@ export class Falling extends State {
     this.player = player;
   }
 
-  enter() {
+  enter(isBackwards = false) {
     this.player.frameX = 0;
     if (this.player.onGround()) this.player.vy -= 30;
     this.player.maxFrame = 7;
