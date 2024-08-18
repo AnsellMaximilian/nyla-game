@@ -2,6 +2,7 @@ import { loadImage } from "@/utils/common";
 import Game from "./Game";
 import { Falling, Jumping, Running, Sitting, State } from "./State";
 import { PlayerState } from "@/const/states";
+import { Dust } from "./Particle";
 
 class Player {
   game: Game;
@@ -48,7 +49,7 @@ class Player {
     this.x = 0;
     this.y = this.game.height - this.height - this.game.groundMargin;
     this.speed = 0;
-    this.maxSpeed = 5;
+    this.maxSpeed = 2;
     this.vy = 0;
     this.weight = 0.5;
 
@@ -72,10 +73,6 @@ class Player {
     // enter state
     this.currentState = this.states[0];
     this.currentState.enter();
-
-    // attack
-    // attack duration
-    // attack cooldown
   }
 
   update(keys: string[], deltaTime: number) {
@@ -263,9 +260,19 @@ class Player {
     ) {
       // collision
       this.hasAttacked = true;
+      this.game.boss.wasJustAttacked = true;
 
       if (this.game.boss.currentHealth - 1 > 0)
         this.game.boss.currentHealth -= 20;
+      for (let i = 0; i < 10; i++) {
+        this.game.boss.particles.push(
+          new Dust(
+            this.game,
+            this.game.boss.x + this.game.boss.width / 2,
+            this.game.boss.y + this.game.boss.height / 2
+          )
+        );
+      }
     } else {
     }
   }

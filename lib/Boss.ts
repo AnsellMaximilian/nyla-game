@@ -1,4 +1,5 @@
 import Game from "@/models/Game";
+import { Particle } from "@/models/Particle";
 import { loadImage } from "@/utils/common";
 
 export class Boss {
@@ -19,6 +20,12 @@ export class Boss {
   image: CanvasImageSource | null = null;
   maxHealth = 1000;
   currentHealth = 1000;
+  particles: Particle[] = [];
+
+  wasJustAttacked = false;
+  inDmgAnim = false;
+  dmgAnimDuration = 300;
+  dmgAnimTimer = 0;
 
   static images: { [key: string]: CanvasImageSource } = {};
   constructor(game: Game) {
@@ -46,6 +53,21 @@ export class Boss {
     if (this.x < 0) this.speedX = -Math.abs(this.speedX);
     else if (this.x + this.width > this.game.width)
       this.speedX = Math.abs(this.speedX);
+
+    // dmg animation
+    if (this.dmgAnimTimer > this.dmgAnimDuration) {
+      this.dmgAnimTimer = 0;
+      if (this.wasJustAttacked) {
+        this.wasJustAttacked = false;
+      }
+    } else {
+      this.dmgAnimTimer += deltaTime;
+    }
+
+    this.particles.forEach((p, i) => {
+      p.update();
+      if (p.markedForDeletion) this.particles.splice(i, 1);
+    });
   }
 
   draw(ctx: CanvasRenderingContext2D) {
@@ -54,6 +76,7 @@ export class Boss {
       ctx.strokeRect(this.x, this.y, this.width, this.height);
     } else ctx.strokeStyle = "black";
     if (this.image) {
+      if (this.wasJustAttacked) ctx.filter = "brightness(50%)";
       ctx.drawImage(
         this.image,
         this.frameX * this.width,
@@ -65,7 +88,12 @@ export class Boss {
         this.width,
         this.height
       );
+
+      ctx.filter = "none";
     }
+    this.particles.forEach((p) => {
+      p.draw(ctx);
+    });
   }
 
   static async prepareAssets() {
