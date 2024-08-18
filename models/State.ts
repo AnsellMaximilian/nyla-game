@@ -23,7 +23,7 @@ export class Sitting extends State {
     this.player.frameX = 0;
     this.player.maxFrame = 6;
 
-    this.player.frameY = 1;
+    this.player.frameY = 2;
   }
 
   handleInput(keys: string[]) {
@@ -66,11 +66,11 @@ export class Jumping extends State {
   }
 
   enter() {
-    if (this.player.onGround()) this.player.vy -= 20;
+    if (this.player.onGround()) this.player.vy -= 25;
 
     this.player.frameX = 0;
     this.player.maxFrame = 7;
-    this.player.frameY = 2;
+    this.player.frameY = 3;
   }
 
   handleInput(keys: string[]) {
@@ -91,28 +91,7 @@ export class Falling extends State {
     this.player.frameX = 0;
     if (this.player.onGround()) this.player.vy -= 30;
     this.player.maxFrame = 7;
-    this.player.frameY = 2;
-  }
-
-  handleInput(keys: string[]) {
-    if (this.player.onGround()) {
-      this.player.setState(PlayerState.SITTING, 0);
-    }
-  }
-}
-
-export class Slashing extends State {
-  player: Player;
-  constructor(player: Player) {
-    super(PlayerState.SLASHING);
-    this.player = player;
-  }
-
-  enter() {
-    this.player.frameX = 0;
-    if (this.player.onGround()) this.player.vy -= 30;
-    this.player.maxFrame = 7;
-    this.player.frameY = 2;
+    this.player.frameY = 3;
   }
 
   handleInput(keys: string[]) {

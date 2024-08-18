@@ -17,6 +17,8 @@ export class Boss {
   maxFrame = 3;
   markedForDeletion = false;
   image: CanvasImageSource | null = null;
+  maxHealth = 1000;
+  currentHealth = 1000;
 
   static images: { [key: string]: CanvasImageSource } = {};
   constructor(game: Game) {

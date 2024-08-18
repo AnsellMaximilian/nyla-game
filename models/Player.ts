@@ -1,7 +1,6 @@
-import { getGameSpeed, loadImage } from "@/utils/common";
+import { loadImage } from "@/utils/common";
 import Game from "./Game";
-import { InputHandler } from "./InputHandler";
-import { Falling, Jumping, Running, Sitting, Slashing, State } from "./State";
+import { Falling, Jumping, Running, Sitting, State } from "./State";
 import { PlayerState } from "@/const/states";
 
 class Player {
@@ -39,6 +38,8 @@ class Player {
   // health
   maxHealth = 1000;
   currentHealth = 1000;
+
+  isBackwards = false;
 
   constructor(game: Game) {
     this.game = game;
@@ -85,9 +86,13 @@ class Player {
     }
     this.currentState.handleInput(keys);
     this.x += this.speed;
-    if (keys.includes("ArrowRight")) this.speed = this.maxSpeed;
-    else if (keys.includes("ArrowLeft")) this.speed = -this.maxSpeed;
-    else this.speed = 0;
+    if (keys.includes("ArrowRight")) {
+      this.speed = this.maxSpeed;
+      this.isBackwards = false;
+    } else if (keys.includes("ArrowLeft")) {
+      this.speed = -this.maxSpeed;
+      this.isBackwards = true;
+    } else this.speed = 0;
 
     if (this.x < 0) this.x = 0;
     if (this.x > this.game.width - this.width - 300)
@@ -136,10 +141,12 @@ class Player {
     }
 
     if (Player.image) {
+      const frameX = this.frameX * this.width;
+      const frameY = this.frameY * this.height;
       ctx.drawImage(
         Player.image,
-        this.frameX * this.width,
-        this.frameY * this.height,
+        frameX,
+        frameY,
         this.width,
         this.height,
         this.x,
@@ -153,10 +160,10 @@ class Player {
       ctx.drawImage(
         Player.attackImage,
         this.currentAttackFrame * 128,
-        0,
+        (this.isBackwards ? 1 : 0) * 128,
         128,
         128,
-        this.x + 128,
+        this.x + (this.isBackwards ? -128 : 128),
         this.y,
         128,
         128
@@ -192,6 +199,16 @@ class Player {
       } else {
       }
     });
+    if (
+      this.game.boss.x < this.x + this.width &&
+      this.game.boss.x + this.game.boss.width > this.x &&
+      this.game.boss.y < this.y + this.height &&
+      this.game.boss.y + this.game.boss.height > this.y
+    ) {
+      // collision
+      if (this.currentHealth - 1 > 0) this.currentHealth--;
+    } else {
+    }
   }
 
   checkAttackCollisons() {
@@ -210,6 +227,21 @@ class Player {
       } else {
       }
     });
+
+    if (
+      this.game.boss.x < this.x + this.width + 128 &&
+      this.game.boss.x + this.game.boss.width > this.x + 128 &&
+      this.game.boss.y < this.y + this.height &&
+      this.game.boss.y + this.game.boss.height > this.y &&
+      !this.hasAttacked
+    ) {
+      // collision
+      this.hasAttacked = true;
+
+      if (this.game.boss.currentHealth - 1 > 0)
+        this.game.boss.currentHealth -= 20;
+    } else {
+    }
   }
 }
 
