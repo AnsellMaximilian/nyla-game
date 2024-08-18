@@ -107,6 +107,7 @@ class Game {
     await Background.prepareAssets();
     await Enemy.prepareAssets();
     await Boss.prepareAssets();
+    await UI.prepareAssets();
   }
 
   cleanUp() {

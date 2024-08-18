@@ -49,3 +49,9 @@ export type GrantRecord = Models.Document & {
 };
 
 export type SessionData = JWTPayload & SessionPayload;
+
+export type DetailedImage = {
+  img: CanvasImageSource;
+  width: number;
+  height: number;
+};

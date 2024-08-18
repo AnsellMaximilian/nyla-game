@@ -37,8 +37,8 @@ class Player {
   hasAttacked = false;
 
   // health
-  maxHealth = 1000;
-  currentHealth = 1000;
+  maxHealth = 10;
+  currentHealth = 10;
 
   isBackwards = false;
 
