@@ -1,4 +1,4 @@
-import { loadImage } from "@/utils/common";
+import { getGameSpeed, loadImage } from "@/utils/common";
 import Game from "./Game";
 import { InputHandler } from "./InputHandler";
 import { Falling, Jumping, Running, Sitting, Slashing, State } from "./State";

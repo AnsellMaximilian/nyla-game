@@ -10,3 +10,9 @@ export const loadImage = (src: string): Promise<HTMLImageElement> => {
     };
   });
 };
+
+export const getGameSpeed = (keys: string[]) => {
+  if (keys.includes("ArrowRight")) return 1;
+  else if (keys.includes("ArrowLeft")) return -1;
+  else return 0;
+};
