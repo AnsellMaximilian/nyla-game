@@ -55,6 +55,9 @@ export class Running extends State {
     if (keys.includes("ArrowUp")) {
       this.player.setState(PlayerState.JUMPING, getGameSpeed(keys));
     }
+
+    if (keys.includes("ArrowRight")) this.player.frameY = 0;
+    else if (keys.includes("ArrowLeft")) this.player.frameY = 1;
   }
 }
 

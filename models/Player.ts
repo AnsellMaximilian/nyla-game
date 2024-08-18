@@ -100,7 +100,11 @@ class Player {
 
     // attacking
     if (keys.includes("c") || keys.includes("C")) {
-      if (!this.isAttackOnCooldown) this.isAttacking = true;
+      if (!this.isAttackOnCooldown) {
+        this.isAttacking = true;
+        // this.tempFrameY = this.frameY;
+        // this.frameY = 4;
+      }
     }
 
     if (this.attackTimer > this.attackDuration) {
@@ -150,8 +154,11 @@ class Player {
     }
 
     if (Player.image) {
-      const frameX = this.frameX * this.width;
-      const frameY = this.frameY * this.height;
+      const frameX =
+        (this.isAttacking
+          ? this.currentAttackFrame + (this.isBackwards ? 2 : 0)
+          : this.frameX) * this.width;
+      const frameY = (this.isAttacking ? 4 : this.frameY) * this.height;
       ctx.drawImage(
         Player.image,
         frameX,

@@ -90,7 +90,6 @@ class Game {
 
   draw() {
     this.background.draw(this.context);
-    this.player.draw(this.context);
 
     // this.enemies.forEach((enemy) => {
     //   // console.log(enemy.y);
@@ -98,6 +97,7 @@ class Game {
     // });
 
     this.boss.draw(this.context);
+    this.player.draw(this.context);
 
     this.ui.draw(this.context);
   }
