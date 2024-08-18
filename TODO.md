@@ -1,5 +1,8 @@
-- [ ] Slash animation frame
+- [x] Slash animation frame
 - [ ] Email line read
-- [ ] Hit particle on enemy
+- [x] Hit particle on enemy
 - [ ] Hit cooldown on self
 - [x] One attack per slash
+- [ ] Boss attack(s)
+- [ ] Player Health (hearts instead of bar)
+- [ ] Nylas Blast
