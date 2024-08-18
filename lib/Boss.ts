@@ -29,6 +29,7 @@ export class Boss {
   }
 
   update(deltaTime: number) {
+    // console.log("BOSS SPEED: " + this.speedX);
     this.x -= this.speedX + this.game.speed;
     this.y += this.speedY;
     if (this.frameTimer > this.frameInterval) {
@@ -40,8 +41,9 @@ export class Boss {
     }
 
     // if (this.x + this.width < 0) this.markedForDeletion = true;
-    if (this.x + this.width < 0 || this.x + this.width > this.game.width)
-      this.speedX = -this.speedX;
+    if (this.x < 0) this.speedX = -Math.abs(this.speedX);
+    else if (this.x + this.width > this.game.width)
+      this.speedX = Math.abs(this.speedX);
   }
 
   draw(ctx: CanvasRenderingContext2D) {
