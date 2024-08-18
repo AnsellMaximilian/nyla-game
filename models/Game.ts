@@ -1,4 +1,4 @@
-import { loadImage } from "@/utils/common";
+import { getGameSpeed, loadImage } from "@/utils/common";
 import Player from "./Player";
 import { InputHandler } from "./InputHandler";
 import { Background } from "./Background";
@@ -62,6 +62,7 @@ class Game {
   }
 
   update(deltaTime: number) {
+    this.speed = getGameSpeed(this.inputHandler.keys) * this.maxSpeed;
     this.background.update();
     this.player.update(this.inputHandler.keys, deltaTime);
 

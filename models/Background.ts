@@ -29,10 +29,20 @@ export class Layer {
 
   update() {
     if (this.x < -this.width) this.x = 0;
+    else if (this.x > this.width) this.x = 0;
     else this.x -= this.game.speed * this.speedModifier;
   }
 
   draw(ctx: CanvasRenderingContext2D) {
+    // console.log({ gameSpeed: this.game.speed });
+    ctx.drawImage(
+      this.image,
+      this.x - this.width,
+      this.y,
+      this.width,
+      this.height
+    );
+
     ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
 
     ctx.drawImage(

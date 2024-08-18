@@ -77,6 +77,7 @@ class Player {
   }
 
   update(keys: string[], deltaTime: number) {
+    // if (keys.length === 1) console.log({ key: keys[0] });
     this.checkCollisons();
     if (this.isAttacking) {
       this.checkAttackCollisons();
@@ -88,8 +89,8 @@ class Player {
     else this.speed = 0;
 
     if (this.x < 0) this.x = 0;
-    if (this.x > this.game.width - this.width)
-      this.x = this.game.width - this.width;
+    if (this.x > this.game.width - this.width - 50)
+      this.x = this.game.width - this.width - 50;
 
     // attacking
     if (keys.includes("c")) {
