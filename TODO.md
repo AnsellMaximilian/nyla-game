@@ -1,0 +1,5 @@
+- [ ] Slash animation frame
+- [ ] Email line read
+- [ ] Hit particle on enemy
+- [ ] Hit cooldown on self
+- [x] One attack per slash

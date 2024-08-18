@@ -34,6 +34,7 @@ class Player {
   attackTimer = 0;
   isAttackOnCooldown = false;
   currentAttackFrame = 0;
+  hasAttacked = false;
 
   // health
   maxHealth = 1000;
@@ -103,6 +104,7 @@ class Player {
         this.isAttacking = false;
         this.isAttackOnCooldown = true;
         this.currentAttackFrame = this.currentAttackFrame === 0 ? 1 : 0;
+        this.hasAttacked = false;
       } else {
         this.isAttackOnCooldown = false;
       }
@@ -198,11 +200,13 @@ class Player {
         enemy.x < this.x + this.width + 128 &&
         enemy.x + enemy.width > this.x + 128 &&
         enemy.y < this.y + this.height &&
-        enemy.y + enemy.height > this.y
+        enemy.y + enemy.height > this.y &&
+        !this.hasAttacked
       ) {
         // collision
         enemy.markedForDeletion = true;
         this.game.score++;
+        this.hasAttacked = true;
       } else {
       }
     });
