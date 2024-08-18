@@ -99,7 +99,7 @@ class Player {
       this.x = this.game.width - this.width - 300;
 
     // attacking
-    if (keys.includes("c")) {
+    if (keys.includes("c") || keys.includes("C")) {
       if (!this.isAttackOnCooldown) this.isAttacking = true;
     }
 
@@ -136,6 +136,15 @@ class Player {
     if (this.game.debug) {
       ctx.strokeStyle = "#35fc03";
       ctx.strokeRect(this.x, this.y, this.width, this.height);
+
+      // draw attack hitbox
+      ctx.strokeStyle = "blue";
+      ctx.strokeRect(
+        this.x + (this.isBackwards ? -128 : this.width),
+        this.y,
+        128,
+        128
+      );
     } else {
       ctx.strokeStyle = "black";
     }
@@ -213,9 +222,13 @@ class Player {
 
   checkAttackCollisons() {
     this.game.enemies.forEach((enemy) => {
+      const isEnemyXBeforeAttackHitBoxEnd =
+        enemy.x < this.x + (this.isBackwards ? 0 : this.width + 128);
+      const isEnemyEndAfterAttackHitBoxX =
+        enemy.x + enemy.width > this.x + (this.isBackwards ? -128 : 128);
       if (
-        enemy.x < this.x + this.width + 128 &&
-        enemy.x + enemy.width > this.x + 128 &&
+        isEnemyXBeforeAttackHitBoxEnd &&
+        isEnemyEndAfterAttackHitBoxX &&
         enemy.y < this.y + this.height &&
         enemy.y + enemy.height > this.y &&
         !this.hasAttacked
@@ -228,9 +241,15 @@ class Player {
       }
     });
 
+    const isBossXBeforeAttackHitBoxEnd =
+      this.game.boss.x < this.x + (this.isBackwards ? 0 : this.width + 128);
+    const isBossEndAfterAttackHitBoxX =
+      this.game.boss.x + this.game.boss.width >
+      this.x + (this.isBackwards ? -128 : 128);
+
     if (
-      this.game.boss.x < this.x + this.width + 128 &&
-      this.game.boss.x + this.game.boss.width > this.x + 128 &&
+      isBossXBeforeAttackHitBoxEnd &&
+      isBossEndAfterAttackHitBoxX &&
       this.game.boss.y < this.y + this.height &&
       this.game.boss.y + this.game.boss.height > this.y &&
       !this.hasAttacked
