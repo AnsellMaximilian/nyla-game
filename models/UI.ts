@@ -36,7 +36,7 @@ export class UI {
         0,
         img.width,
         img.height,
-        20 + i * (img.width + 20),
+        20 + i * (img.width + 10),
         20,
         img.width,
         img.height
