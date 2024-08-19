@@ -33,6 +33,7 @@ export class Boss {
   attackTimer = 0;
   attackInterval = 5000;
   projectiles: Projectile[] = [];
+  projectileLimit = 2;
 
   static images: { [key: string]: CanvasImageSource } = {};
   constructor(game: Game) {
@@ -71,20 +72,13 @@ export class Boss {
       this.dmgAnimTimer += deltaTime;
     }
 
-    if (this.attackTimer > this.attackInterval) {
+    if (
+      this.attackTimer > this.attackInterval &&
+      this.projectiles.length < this.projectileLimit
+    ) {
       this.attackTimer = 0;
       this.projectiles.push(
-        new Projectile(
-          this.game,
-          this.x,
-          this.y + 100,
-          5,
-          -1,
-          25,
-          true,
-          true,
-          10000
-        )
+        new Projectile(this.game, this.x, this.y + 100, 4, -1, 25, false, false)
       );
     } else {
       this.attackTimer += deltaTime;
@@ -99,6 +93,8 @@ export class Boss {
       p.update(deltaTime);
       if (p.markedForDeletion) this.projectiles.splice(i, 1);
     });
+
+    console.log(this.projectiles);
   }
 
   draw(ctx: CanvasRenderingContext2D) {

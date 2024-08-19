@@ -257,18 +257,18 @@ class Player {
   }
 
   checkCollisons() {
-    this.game.enemies.forEach((enemy) => {
-      if (
-        enemy.x < this.x + this.width &&
-        enemy.x + enemy.width > this.x &&
-        enemy.y < this.y + this.height &&
-        enemy.y + enemy.height > this.y
-      ) {
-        // collision
-        if (this.currentHealth - 1 > 0) this.currentHealth--;
-      } else {
-      }
-    });
+    // this.game.enemies.forEach((enemy) => {
+    //   if (
+    //     enemy.x < this.x + this.width &&
+    //     enemy.x + enemy.width > this.x &&
+    //     enemy.y < this.y + this.height &&
+    //     enemy.y + enemy.height > this.y
+    //   ) {
+    //     // collision
+    //     if (this.currentHealth - 1 > 0) this.currentHealth--;
+    //   } else {
+    //   }
+    // });
     if (
       this.game.boss.x < this.x + this.width &&
       this.game.boss.x + this.game.boss.width > this.x &&
@@ -279,8 +279,22 @@ class Player {
       if (this.currentHealth - 1 >= 0 && !this.isInDamageCooldown)
         this.currentHealth--;
       this.isInDamageCooldown = true;
-    } else {
     }
+
+    // boss projectiles
+    this.game.boss.projectiles.forEach((p) => {
+      if (
+        p.x - p.size < this.x + this.width &&
+        p.x + p.size * 2 > this.x &&
+        p.y - p.size < this.y + this.height &&
+        p.y + p.size * 2 > this.y
+      ) {
+        // collision
+        if (this.currentHealth - 1 >= 0 && !this.isInDamageCooldown)
+          this.currentHealth--;
+        this.isInDamageCooldown = true;
+      }
+    });
   }
 
   checkAttackCollisons() {
