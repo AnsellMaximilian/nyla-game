@@ -40,6 +40,12 @@ class Player {
   maxHealth = 10;
   currentHealth = 10;
 
+  // damage. Properties that control player's behaviour when taking damage
+  damageCooldownTimer = 0;
+  damageCooldownDuration = 2000;
+  isInDamageCooldown = false;
+  damageCooldownBlink = false;
+
   isBackwards = false;
 
   constructor(game: Game) {
@@ -118,6 +124,16 @@ class Player {
       this.attackTimer += deltaTime;
     }
 
+    if (this.damageCooldownTimer > this.damageCooldownDuration) {
+      this.damageCooldownTimer = 0;
+      if (this.isInDamageCooldown) {
+        this.isInDamageCooldown = false;
+        this.damageCooldownBlink = false;
+      }
+    } else {
+      this.damageCooldownTimer += deltaTime;
+    }
+
     this.y += this.vy;
 
     if (!this.onGround()) this.vy += this.weight;
@@ -128,6 +144,10 @@ class Player {
       this.frameTimer = 0;
       if (this.frameX < this.maxFrame) this.frameX++;
       else this.frameX = 0;
+
+      // cooldown
+      if (this.isInDamageCooldown)
+        this.damageCooldownBlink = !this.damageCooldownBlink;
     } else {
       this.frameTimer += deltaTime;
     }
@@ -150,7 +170,7 @@ class Player {
       ctx.strokeStyle = "black";
     }
 
-    if (Player.image) {
+    if (Player.image && !this.damageCooldownBlink) {
       const frameX =
         (this.isAttacking
           ? this.currentAttackFrame + (this.isBackwards ? 2 : 0)
@@ -219,7 +239,9 @@ class Player {
       this.game.boss.y + this.game.boss.height > this.y
     ) {
       // collision
-      if (this.currentHealth - 1 > 0) this.currentHealth--;
+      if (this.currentHealth - 1 >= 0 && !this.isInDamageCooldown)
+        this.currentHealth--;
+      this.isInDamageCooldown = true;
     } else {
     }
   }
