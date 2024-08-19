@@ -28,7 +28,9 @@ export default function GamePage() {
           ctx.clearRect(0, 0, canvas.width, canvas.height);
           game.update(deltaTime);
           game.draw();
-          frameId = requestAnimationFrame(animate);
+          if (!game.gameOver) {
+            frameId = requestAnimationFrame(animate);
+          }
         };
 
         animate(0);

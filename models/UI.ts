@@ -56,6 +56,34 @@ export class UI {
     // ctx.strokeRect(20, 20, 300, 30);
     ctx.strokeRect(this.game.width - 300 - 20, 20, 300, 30);
 
+    // game over screen
+    if (this.game.gameOver) {
+      ctx.textAlign = "center";
+      ctx.font = this.fontSize * 2 + "px " + this.fontFamily;
+      ctx.fillStyle = "black";
+      ctx.fillText(
+        "Game Over",
+        this.game.width / 2 + 2,
+        this.game.height / 2 + 2 - 20
+      );
+
+      ctx.fillStyle = "#BCCDFF";
+      ctx.fillText("Game Over", this.game.width / 2, this.game.height / 2 - 20);
+
+      // sub text
+      ctx.font = this.fontSize * 0.7 + "px " + this.fontFamily;
+      ctx.fillStyle = "black";
+
+      ctx.fillText(
+        "Good!",
+        this.game.width / 2 + 2,
+        this.game.height / 2 + 2 + 20
+      );
+
+      ctx.fillStyle = "#BCCDFF";
+      ctx.fillText("Good!", this.game.width / 2, this.game.height / 2 + 20);
+    }
+
     // reset
     ctx.lineWidth = 1;
     ctx.fillStyle = "black";

@@ -36,6 +36,9 @@ class Game {
 
   boss: Boss;
 
+  // game over
+  gameOver = false;
+
   constructor(
     width: number,
     height: number,
@@ -67,6 +70,10 @@ class Game {
   }
 
   update(deltaTime: number) {
+    if (this.player.currentHealth <= 0 || this.boss.currentHealth <= 0) {
+      this.gameOver = true;
+    }
+
     this.speed = getGameSpeed(this.inputHandler.keys) * this.maxSpeed;
     this.background.update();
     this.player.update(this.inputHandler.keys, deltaTime);

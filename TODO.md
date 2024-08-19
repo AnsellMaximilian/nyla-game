@@ -4,6 +4,6 @@
 - [x] Hit cooldown on self
 - [x] One attack per slash
 - [ ] Boss attack(s)
-- [ ] Player Health (hearts instead of bar)
+- [x] Player Health (hearts instead of bar)
 - [ ] Nylas Blast
-- [ ] Game over screen
+- [x] Game over screen
