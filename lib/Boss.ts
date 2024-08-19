@@ -1,5 +1,6 @@
 import Game from "@/models/Game";
 import { Particle } from "@/models/Particle";
+import { Projectile } from "@/models/Projectile";
 import { loadImage } from "@/utils/common";
 
 export class Boss {
@@ -22,10 +23,16 @@ export class Boss {
   currentHealth = 1000;
   particles: Particle[] = [];
 
+  // damage
   wasJustAttacked = false;
   inDmgAnim = false;
   dmgAnimDuration = 300;
   dmgAnimTimer = 0;
+
+  // attack
+  attackTimer = 0;
+  attackInterval = 5000;
+  projectiles: Projectile[] = [];
 
   static images: { [key: string]: CanvasImageSource } = {};
   constructor(game: Game) {
@@ -64,10 +71,35 @@ export class Boss {
       this.dmgAnimTimer += deltaTime;
     }
 
+    if (this.attackTimer > this.attackInterval) {
+      this.attackTimer = 0;
+      this.projectiles.push(
+        new Projectile(
+          this.game,
+          this.x,
+          this.y + 100,
+          5,
+          -1,
+          25,
+          true,
+          true,
+          10000
+        )
+      );
+    } else {
+      this.attackTimer += deltaTime;
+    }
+
     this.particles.forEach((p, i) => {
       p.update();
       if (p.markedForDeletion) this.particles.splice(i, 1);
     });
+
+    this.projectiles.forEach((p, i) => {
+      p.update(deltaTime);
+      if (p.markedForDeletion) this.projectiles.splice(i, 1);
+    });
+    console.log(this.projectiles);
   }
 
   draw(ctx: CanvasRenderingContext2D) {
@@ -92,6 +124,10 @@ export class Boss {
       ctx.filter = "none";
     }
     this.particles.forEach((p) => {
+      p.draw(ctx);
+    });
+
+    this.projectiles.forEach((p) => {
       p.draw(ctx);
     });
   }
