@@ -99,7 +99,6 @@ export class Boss {
       p.update(deltaTime);
       if (p.markedForDeletion) this.projectiles.splice(i, 1);
     });
-    console.log(this.projectiles);
   }
 
   draw(ctx: CanvasRenderingContext2D) {
@@ -134,7 +133,6 @@ export class Boss {
 
   static async prepareAssets() {
     const emailBoss = await loadImage("/images/email-boss.png");
-    console.log(emailBoss);
 
     this.images["emailBoss"] = emailBoss;
   }

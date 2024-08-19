@@ -82,7 +82,6 @@ class Player {
   }
 
   update(keys: string[], deltaTime: number) {
-    // if (keys.length === 1) console.log({ key: keys[0] });
     this.checkCollisons();
     if (this.isAttacking) {
       this.checkAttackCollisons();
@@ -136,8 +135,9 @@ class Player {
 
     this.y += this.vy;
 
-    if (!this.onGround()) this.vy += this.weight;
-    else this.vy = 0;
+    if (!this.onGround()) {
+      this.vy += this.weight;
+    } else this.vy = 0;
 
     // sprite
     if (this.frameTimer > this.frameInterval) {
@@ -151,6 +151,8 @@ class Player {
     } else {
       this.frameTimer += deltaTime;
     }
+
+    if (this.vy != 0) console.log({ vy: this.vy, y: this.y });
   }
 
   draw(ctx: CanvasRenderingContext2D) {
