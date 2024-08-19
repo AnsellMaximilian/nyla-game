@@ -48,6 +48,13 @@ class Player {
 
   isBackwards = false;
 
+  // dash
+  dashTimer = 0;
+  dashDuration = 500;
+  isInDash = false;
+  isDashInCooldown = false;
+  hasDashed = false;
+
   constructor(game: Game) {
     this.game = game;
     this.width = 128;
@@ -87,7 +94,7 @@ class Player {
       this.checkAttackCollisons();
     }
     this.currentState.handleInput(keys);
-    this.x += this.speed;
+    this.x += this.speed * (this.isInDash ? 20 : 1);
     if (keys.includes("ArrowRight")) {
       this.speed = this.maxSpeed;
       this.isBackwards = false;
@@ -104,8 +111,13 @@ class Player {
     if (keys.includes("c") || keys.includes("C")) {
       if (!this.isAttackOnCooldown) {
         this.isAttacking = true;
-        // this.tempFrameY = this.frameY;
-        // this.frameY = 4;
+      }
+    }
+
+    // dash
+    if (keys.includes("z") || keys.includes("Z")) {
+      if (!this.isInDash) {
+        this.isInDash = true;
       }
     }
 
@@ -131,6 +143,20 @@ class Player {
       }
     } else {
       this.damageCooldownTimer += deltaTime;
+    }
+
+    // dash
+    if (this.dashTimer > this.dashDuration) {
+      this.dashTimer = 0;
+      if (this.isInDash) {
+        this.isInDash = false;
+        this.isDashInCooldown = true;
+        this.hasDashed = false;
+      } else {
+        this.isDashInCooldown = false;
+      }
+    } else {
+      this.dashTimer += deltaTime;
     }
 
     this.y += this.vy;
