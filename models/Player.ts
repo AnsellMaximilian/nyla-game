@@ -50,10 +50,11 @@ class Player {
 
   // dash
   dashTimer = 0;
-  dashDuration = 500;
+  dashDuration = 200;
   isInDash = false;
   isDashInCooldown = false;
   hasDashed = false;
+  dashFrame = 0;
 
   constructor(game: Game) {
     this.game = game;
@@ -94,7 +95,7 @@ class Player {
       this.checkAttackCollisons();
     }
     this.currentState.handleInput(keys);
-    this.x += this.speed * (this.isInDash ? 20 : 1);
+    this.x += this.speed * (this.isInDash ? 10 : 1);
     if (keys.includes("ArrowRight")) {
       this.speed = this.maxSpeed;
       this.isBackwards = false;
@@ -104,8 +105,8 @@ class Player {
     } else this.speed = 0;
 
     if (this.x < 0) this.x = 0;
-    if (this.x > this.game.width - this.width - 300)
-      this.x = this.game.width - this.width - 300;
+    if (this.x > this.game.width - this.width)
+      this.x = this.game.width - this.width;
 
     // attacking
     if (keys.includes("c") || keys.includes("C")) {
@@ -174,6 +175,8 @@ class Player {
       // cooldown
       if (this.isInDamageCooldown)
         this.damageCooldownBlink = !this.damageCooldownBlink;
+
+      if (this.isInDash) this.dashFrame = this.dashFrame === 0 ? 1 : 0;
     } else {
       this.frameTimer += deltaTime;
     }
@@ -199,11 +202,17 @@ class Player {
     }
 
     if (Player.image && !this.damageCooldownBlink) {
-      const frameX =
+      let frameX =
         (this.isAttacking
           ? this.currentAttackFrame + (this.isBackwards ? 2 : 0)
           : this.frameX) * this.width;
-      const frameY = (this.isAttacking ? 4 : this.frameY) * this.height;
+      let frameY = (this.isAttacking ? 4 : this.frameY) * this.height;
+
+      if (this.isInDash) {
+        frameY = (this.isBackwards ? 7 : 6) * this.height;
+        frameX = this.dashFrame * this.width;
+      }
+
       ctx.drawImage(
         Player.image,
         frameX,

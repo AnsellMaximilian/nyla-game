@@ -47,7 +47,7 @@ class Game {
     this.groundMargin = 50;
 
     this.speed = 0;
-    this.maxSpeed = 4;
+    this.maxSpeed = 3;
 
     this.background = new Background(this);
 
