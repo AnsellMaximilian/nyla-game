@@ -35,6 +35,9 @@ export class Boss {
   projectiles: Projectile[] = [];
   projectileLimit = 2;
 
+  // backwards
+  isBackwards = false;
+
   static images: { [key: string]: CanvasImageSource } = {};
   constructor(game: Game) {
     this.frameX = 0;
@@ -78,10 +81,27 @@ export class Boss {
     ) {
       this.attackTimer = 0;
       this.projectiles.push(
-        new Projectile(this.game, this.x, this.y + 100, 4, -1, 25, false, false)
+        new Projectile(
+          this.game,
+          this.x + (this.isBackwards ? this.width : 0),
+          this.y + 100,
+          4 * (this.isBackwards ? -1 : 1),
+          -1,
+          25,
+          false,
+          false
+        )
       );
     } else {
       this.attackTimer += deltaTime;
+    }
+
+    // face player
+    if (this.x + this.width < this.game.player.x) {
+      console.log("Turning backwards");
+      this.isBackwards = true;
+    } else if (this.x > this.game.player.x + this.game.player.width) {
+      this.isBackwards = false;
     }
 
     this.particles.forEach((p, i) => {
@@ -107,7 +127,7 @@ export class Boss {
       ctx.drawImage(
         this.image,
         this.frameX * this.width,
-        0,
+        (this.isBackwards ? 1 : 0) * this.height,
         this.width,
         this.height,
         this.x,

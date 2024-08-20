@@ -7,3 +7,4 @@
 - [x] Player Health (hearts instead of bar)
 - [ ] Nylas Blast
 - [x] Game over screen
+- [x] Boss faces player
