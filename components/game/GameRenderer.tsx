@@ -46,9 +46,8 @@ export default function GameRenderer() {
     };
   }, [canvasRef]);
   return (
-    <div className=" grow bg-[#2E3B65] text-white">
+    <div className=" grow bg-[#2E3B65] text-white flex items-center justify-center">
       <div className="flex gap-8">
-        <div>{gameResult?.isWin ? "Win" : "Waiting"}</div>
         <canvas ref={canvasRef} className=" border-black border-4"></canvas>
       </div>
     </div>
