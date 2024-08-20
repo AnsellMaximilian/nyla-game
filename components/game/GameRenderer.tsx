@@ -1,10 +1,13 @@
 "use client";
 
 import Game from "@/models/Game";
-import React, { useLayoutEffect, useRef } from "react";
+import { GameResult } from "@/type";
+import React, { useLayoutEffect, useRef, useState } from "react";
 
 export default function GameRenderer() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+
+  const [gameResult, setGameResult] = useState<GameResult | null>(null);
 
   useLayoutEffect(() => {
     let game: Game;
@@ -18,7 +21,7 @@ export default function GameRenderer() {
 
         const ctx = canvas.getContext("2d")!;
         await Game.prepareAssets();
-        game = new Game(canvas.width, canvas.height, ctx);
+        game = new Game(canvas.width, canvas.height, ctx, setGameResult);
         // game.animate();
         let lastTime = 0;
 
@@ -43,11 +46,11 @@ export default function GameRenderer() {
     };
   }, [canvasRef]);
   return (
-    <div>
-      <canvas
-        ref={canvasRef}
-        className="absolute top-0 left-0 border-black border-4"
-      ></canvas>
+    <div className=" grow bg-[#2E3B65] text-white">
+      <div className="flex gap-8">
+        <div>{gameResult?.isWin ? "Win" : "Waiting"}</div>
+        <canvas ref={canvasRef} className=" border-black border-4"></canvas>
+      </div>
     </div>
   );
 }

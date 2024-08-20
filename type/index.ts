@@ -55,3 +55,7 @@ export type DetailedImage = {
   width: number;
   height: number;
 };
+
+export type GameResult = {
+  isWin: boolean;
+};

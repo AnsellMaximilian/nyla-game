@@ -5,6 +5,7 @@ import { Background } from "./Background";
 import { Enemy, FlyingEnemy, GroundEnemy } from "./Enemy";
 import { UI } from "./UI";
 import { Boss, EmailBoss } from "@/lib/Boss";
+import { GameResult } from "@/type";
 
 class Game {
   width: number;
@@ -39,10 +40,13 @@ class Game {
   // game over
   gameOver = false;
 
+  setGameResult: React.Dispatch<React.SetStateAction<GameResult | null>>;
+
   constructor(
     width: number,
     height: number,
-    context: CanvasRenderingContext2D
+    context: CanvasRenderingContext2D,
+    setGameResult: React.Dispatch<React.SetStateAction<GameResult | null>>
   ) {
     this.width = width;
     this.height = height;
@@ -67,11 +71,14 @@ class Game {
     this.score = 0;
 
     this.boss = new EmailBoss(this);
+
+    this.setGameResult = setGameResult;
   }
 
   update(deltaTime: number) {
     if (this.player.currentHealth <= 0 || this.boss.currentHealth <= 0) {
       this.gameOver = true;
+      this.setGameResult({ isWin: true });
     }
 
     this.speed = getGameSpeed(this.inputHandler.keys) * this.maxSpeed;
