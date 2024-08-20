@@ -8,3 +8,10 @@
 - [ ] Nylas Blast
 - [x] Game over screen
 - [x] Boss faces player
+- [ ] Dash cooldown
+
+## Fixes
+
+- [x] Jump animation (when jump starts with left or right)
+- [ ] Missing pixels on email boss
+- [ ]

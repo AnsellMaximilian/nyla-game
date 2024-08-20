@@ -127,7 +127,7 @@ export class Boss {
       if (p.markedForDeletion) this.projectiles.splice(i, 1);
     });
 
-    console.log(this.projectiles);
+    // console.log(this.projectiles);
   }
 
   draw(ctx: CanvasRenderingContext2D) {

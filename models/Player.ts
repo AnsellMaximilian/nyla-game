@@ -181,7 +181,7 @@ class Player {
       this.frameTimer += deltaTime;
     }
 
-    if (this.vy != 0) console.log({ vy: this.vy, y: this.y });
+    // if (this.vy != 0) console.log({ vy: this.vy, y: this.y });
   }
 
   draw(ctx: CanvasRenderingContext2D) {

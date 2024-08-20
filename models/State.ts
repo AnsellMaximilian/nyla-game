@@ -80,6 +80,8 @@ export class Jumping extends State {
     if (this.player.vy > this.player.weight) {
       this.player.setState(PlayerState.FALLING, getGameSpeed(keys));
     }
+    if (keys.includes("ArrowRight")) this.player.frameY = 3;
+    else if (keys.includes("ArrowLeft")) this.player.frameY = 8;
   }
 }
 
