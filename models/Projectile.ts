@@ -68,7 +68,12 @@ export class Projectile {
     }
 
     // check if projectile is outside of game boundaries.
-    if (this.x + this.size < 0 || this.y + this.size < 0)
+    if (
+      this.x + this.size < 0 ||
+      this.y + this.size < 0 ||
+      this.x - this.size > this.game.width ||
+      this.y - this.size > this.game.height
+    )
       this.markedForDeletion = true;
   }
 
