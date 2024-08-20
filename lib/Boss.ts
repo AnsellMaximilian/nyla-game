@@ -35,6 +35,10 @@ export class Boss {
   projectiles: Projectile[] = [];
   projectileLimit = 2;
 
+  prepareAttackTimer = 0;
+  prepareAttackDuration = 500;
+  isPreparingAttack = false;
+
   // backwards
   isBackwards = false;
 
@@ -75,30 +79,39 @@ export class Boss {
       this.dmgAnimTimer += deltaTime;
     }
 
-    if (
-      this.attackTimer > this.attackInterval &&
-      this.projectiles.length < this.projectileLimit
-    ) {
-      this.attackTimer = 0;
-      this.projectiles.push(
-        new Projectile(
-          this.game,
-          this.x + (this.isBackwards ? this.width : 0),
-          this.y + 100,
-          4 * (this.isBackwards ? -1 : 1),
-          -1,
-          25,
-          false,
-          false
-        )
-      );
+    // attack handling
+    if (!this.isPreparingAttack) {
+      if (this.attackTimer > this.attackInterval) {
+        this.attackTimer = 0;
+        this.isPreparingAttack = true;
+      } else {
+        this.attackTimer += deltaTime;
+      }
     } else {
-      this.attackTimer += deltaTime;
+      if (this.prepareAttackTimer > this.prepareAttackDuration) {
+        this.prepareAttackTimer = 0;
+        this.isPreparingAttack = false;
+        if (this.projectiles.length < this.projectileLimit) {
+          this.projectiles.push(
+            new Projectile(
+              this.game,
+              this.x + (this.isBackwards ? this.width : 0),
+              this.y + 100,
+              4 * (this.isBackwards ? -1 : 1),
+              -1,
+              25,
+              false,
+              false
+            )
+          );
+        }
+      } else {
+        this.prepareAttackTimer += deltaTime;
+      }
     }
 
     // face player
     if (this.x + this.width < this.game.player.x) {
-      console.log("Turning backwards");
       this.isBackwards = true;
     } else if (this.x > this.game.player.x + this.game.player.width) {
       this.isBackwards = false;
@@ -124,10 +137,15 @@ export class Boss {
     } else ctx.strokeStyle = "black";
     if (this.image) {
       if (this.wasJustAttacked) ctx.filter = "brightness(50%)";
+
+      let frameY = this.isPreparingAttack ? 2 : 0;
+
+      if (this.isBackwards) frameY++;
+
       ctx.drawImage(
         this.image,
         this.frameX * this.width,
-        (this.isBackwards ? 1 : 0) * this.height,
+        frameY * this.height,
         this.width,
         this.height,
         this.x,
