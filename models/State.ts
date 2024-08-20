@@ -73,7 +73,7 @@ export class Jumping extends State {
 
     this.player.frameX = 0;
     this.player.maxFrame = 7;
-    this.player.frameY = 3;
+    this.player.frameY = isBackwards ? 8 : 3;
   }
 
   handleInput(keys: string[]) {
@@ -96,12 +96,14 @@ export class Falling extends State {
     this.player.frameX = 0;
     if (this.player.onGround()) this.player.vy -= 30;
     this.player.maxFrame = 7;
-    this.player.frameY = 3;
+    this.player.frameY = isBackwards ? 8 : 3;
   }
 
   handleInput(keys: string[]) {
     if (this.player.onGround()) {
       this.player.setState(PlayerState.SITTING, 0);
     }
+    if (keys.includes("ArrowRight")) this.player.frameY = 3;
+    else if (keys.includes("ArrowLeft")) this.player.frameY = 8;
   }
 }
