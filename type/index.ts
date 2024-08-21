@@ -1,3 +1,5 @@
+import { SetupNames } from "@/const/boss-setup";
+import { PlayerStatNames } from "@/const/player";
 import { Models } from "appwrite";
 import { JWTPayload } from "jose";
 import { Dispatch, SetStateAction } from "react";
@@ -74,4 +76,16 @@ export type BossParams = {
   maxProjectiles: number;
   projectileLifetime: number;
   projectileBounces: boolean;
+};
+
+export type Trinket = {
+  id: string;
+  name: string;
+  description: string;
+  image: string;
+  boostedStat: keyof typeof PlayerStatNames;
+  boostValue: number;
+  boostType: "INCREASE" | "DECREASE";
+  available: boolean;
+  effect: string;
 };
