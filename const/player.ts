@@ -3,4 +3,5 @@ export const PlayerStatNames = {
   ATTACK_SPEED: "ATTACK_SPEED",
   SPEED: "SPEED",
   DAMAGE: "DAMAGE",
+  NYLA_BLAST_DAMAGE: "NYLA_BLAST_DAMAGE",
 };

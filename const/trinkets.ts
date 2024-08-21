@@ -30,4 +30,44 @@ export const TRINKETS: Trinket[] = [
     image: "/images/trinkets/claws-of-lionessa.png",
     boostValue: 4,
   },
+
+  {
+    id: "LAST_VERDANT_ESSENCE_OF_FELINIA",
+    name: "Last Verdant Essence of Felinia",
+    description:
+      " This bundle of catnip is no ordinary herb—it is the final harvest from the sacred Groves of Felinia, a hidden paradise believed to be the birthplace of all felinekind. The groves, once lush and vibrant, were said to be the source of endless vitality for the cats that roamed them. But when the ancient homeland of Felinia was lost to time, this bundle became the last remnant of that paradise. \nMiraculously, these leaves never wither, their fragrance as potent as the day they were plucked. Legends tell that the spirits of Felinia's first guardians infused this catnip with their eternal essence, ensuring it would endure forever. When Nyla inhales the timeless aroma of this sacred herb, she feels an unparalleled surge of energy and clarity, as if the very soul of Felinia is guiding her.",
+    effect:
+      "Temporarily boosts attack speed and enhances focus, allowing Nyla to strike with the precision and swiftness of her ancestors. The effects of this trinket are everlasting, ensuring that the strength of Felinia’s final gift remains with Nyla in every battle.",
+    available: true,
+    boostedStat: "ATTACK_SPEED",
+    boostType: "INCREASE",
+    image: "/images/trinkets/last-verdant-essence-of-felinia.png",
+    boostValue: 4,
+  },
+  {
+    id: "ETERNAL_YARN_BALL",
+    name: "Eternal Yarn Ball",
+    description:
+      "A vibrant red yarn ball that never unravels, no matter how much it is played with. This yarn ball symbolizes the playful yet determined nature of modern cats, who can entertain themselves endlessly with the simplest of objects. Enchanted with a spell of infinite energy, this yarn ball grants Nyla boundless stamina and unwavering focus. No matter how long or fierce the battle, Nyla's strength never wanes, and her resolve remains unshaken.",
+    effect:
+      "Increases stamina regeneration and reduces the stamina cost of abilities, allowing Nyla to maintain her energy and focus for longer periods during combat.",
+    available: true,
+    boostedStat: "SPEED",
+    boostType: "INCREASE",
+    image: "/images/trinkets/eternal-yarn-ball.png",
+    boostValue: 4,
+  },
+  {
+    id: "SUNBEAM_SCEPTER",
+    name: "Sunbeam Scepter",
+    description:
+      "Crafted by the ancient and powerful mythical apes who once sought to harness the might of Nyla's ancestors, the Sunbeam Scepter is a relic of their long-lost civilization. This scepter, forged from obsidian and adorned with a radiant crystal, was used to emit a concentrated beam of pure sunlight, capable of captivating and controlling even the fiercest of feline warriors. Now, Nyla channels its potent energy not as a tool of subjugation, but as a weapon of liberation, amplifying her Nyla Blast to devastating levels.",
+    effect:
+      "Significantly boosts Nyla Blast damage, allowing her to unleash a beam of pure, focused energy that obliterates enemies with the burning intensity of the sun.",
+    available: true,
+    boostedStat: "NYLA_BLAST_DAMAGE",
+    boostType: "INCREASE",
+    image: "/images/trinkets/sunbeam-scepter.png",
+    boostValue: 4,
+  },
 ];
