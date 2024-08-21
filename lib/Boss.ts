@@ -117,7 +117,7 @@ export class Boss {
               -1,
               25,
               this.projectileBounces,
-              false,
+              true,
               this.projectileLifetime
             )
           );
