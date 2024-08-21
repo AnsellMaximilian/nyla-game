@@ -4,8 +4,8 @@ export const config = {
   projectId: String(process.env.NEXT_PUBLIC_APPWRITE_PROJECT_ID),
   dbId: String(process.env.NEXT_PUBLIC_DB_ID),
 
-  userProfileCollectionId: String(
-    process.env.NEXT_PUBLIC_USER_PROFILE_COLLECTION_ID
+  playerNylaCollectionId: String(
+    process.env.NEXT_PUBLIC_PLAYER_NYLA_COLLECTION_ID
   ),
   grantCollectionId: String(process.env.NEXT_PUBLIC_GRANT_COLLECTION_ID),
 };
