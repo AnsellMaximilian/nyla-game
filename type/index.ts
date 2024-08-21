@@ -73,4 +73,5 @@ export type BossParams = {
   attackSpeedBoost: number;
   maxProjectiles: number;
   projectileLifetime: number;
+  projectileBounces: boolean;
 };

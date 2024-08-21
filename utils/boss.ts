@@ -8,5 +8,6 @@ export const getDefaultBossParams = (): BossParams => {
     speedBoost: SETUP_VALUES[SetupNames.SPEED].default,
     maxProjectiles: SETUP_VALUES[SetupNames.MAX_PROJECTILES].default,
     projectileLifetime: SETUP_VALUES[SetupNames.PROJECTILE_LIFETIME].default,
+    projectileBounces: false,
   };
 };

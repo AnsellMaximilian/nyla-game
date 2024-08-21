@@ -37,6 +37,7 @@ export class Boss {
   projectiles: Projectile[] = [];
   projectileLimit = BossBaseStats.maxProjectiles;
   projectileLifetime = BossBaseStats.projectileLifetime;
+  projectileBounces = false;
 
   prepareAttackTimer = 0;
   prepareAttackDuration = 500;
@@ -64,6 +65,7 @@ export class Boss {
       BossBaseStats.attackSpeed / bossParams.attackSpeedBoost;
     this.projectileLifetime = bossParams.projectileLifetime;
     this.projectileLimit = bossParams.maxProjectiles;
+    this.projectileBounces = bossParams.projectileBounces;
   }
 
   update(deltaTime: number) {
@@ -114,7 +116,7 @@ export class Boss {
               4 * (this.isBackwards ? -1 : 1),
               -1,
               25,
-              false,
+              this.projectileBounces,
               false,
               this.projectileLifetime
             )

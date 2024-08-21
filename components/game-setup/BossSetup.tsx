@@ -37,6 +37,7 @@ export default function BossSetup({
       healthBoost,
       maxProjectiles,
       projectileLifetime,
+      projectileBounces,
     };
     setBossParams(bossParams);
   };
