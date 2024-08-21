@@ -1,10 +1,15 @@
 "use client";
 
 import Game from "@/models/Game";
-import { GameResult } from "@/type";
+import { BossParams, GameResult } from "@/type";
+import { getDefaultBossParams } from "@/utils/boss";
 import React, { useLayoutEffect, useRef, useState } from "react";
 
-export default function GameRenderer() {
+export default function GameRenderer({
+  bossParams,
+}: {
+  bossParams: BossParams;
+}) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   const [gameResult, setGameResult] = useState<GameResult | null>(null);
@@ -21,7 +26,13 @@ export default function GameRenderer() {
 
         const ctx = canvas.getContext("2d")!;
         await Game.prepareAssets();
-        game = new Game(canvas.width, canvas.height, ctx, setGameResult);
+        game = new Game(
+          canvas.width,
+          canvas.height,
+          ctx,
+          bossParams,
+          setGameResult
+        );
         // game.animate();
         let lastTime = 0;
 

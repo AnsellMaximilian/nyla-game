@@ -1,6 +1,8 @@
+import { BossBaseStats } from "@/const/boss-setup";
 import Game from "@/models/Game";
 import { Particle } from "@/models/Particle";
 import { Projectile } from "@/models/Projectile";
+import { BossParams } from "@/type";
 import { loadImage } from "@/utils/common";
 
 export class Boss {
@@ -19,8 +21,8 @@ export class Boss {
   maxFrame = 3;
   markedForDeletion = false;
   image: CanvasImageSource | null = null;
-  maxHealth = 1000;
-  currentHealth = 1000;
+  maxHealth = BossBaseStats.health;
+  currentHealth = BossBaseStats.health;
   particles: Particle[] = [];
 
   // damage
@@ -31,9 +33,10 @@ export class Boss {
 
   // attack
   attackTimer = 0;
-  attackInterval = 5000;
+  attackInterval = BossBaseStats.attackSpeed;
   projectiles: Projectile[] = [];
-  projectileLimit = 2;
+  projectileLimit = BossBaseStats.maxProjectiles;
+  projectileLifetime = BossBaseStats.projectileLifetime;
 
   prepareAttackTimer = 0;
   prepareAttackDuration = 500;
@@ -43,13 +46,24 @@ export class Boss {
   isBackwards = false;
 
   static images: { [key: string]: CanvasImageSource } = {};
-  constructor(game: Game) {
+  constructor(game: Game, bossParams: BossParams) {
     this.frameX = 0;
     this.frameY = 0;
     this.fps = 20;
     this.frameInterval = 1000 / this.fps;
     this.frameTimer = 0;
     this.game = game;
+
+    this.speedX = BossBaseStats.speed;
+
+    // setup using boss params
+    this.maxHealth = BossBaseStats.health * bossParams.healthBoost;
+    this.currentHealth = this.maxHealth;
+    this.speedX = BossBaseStats.speed * bossParams.speedBoost;
+    this.attackInterval =
+      BossBaseStats.attackSpeed / bossParams.attackSpeedBoost;
+    this.projectileLifetime = bossParams.projectileLifetime;
+    this.projectileLimit = bossParams.maxProjectiles;
   }
 
   update(deltaTime: number) {
@@ -101,7 +115,8 @@ export class Boss {
               -1,
               25,
               false,
-              false
+              false,
+              this.projectileLifetime
             )
           );
         }
@@ -176,13 +191,12 @@ export class Boss {
   }
 }
 export class EmailBoss extends Boss {
-  constructor(game: Game) {
-    super(game);
+  constructor(game: Game, bossParams: BossParams) {
+    super(game, bossParams);
     this.width = 256;
     this.height = 256;
     this.x = this.game.width - this.width;
     this.y = this.game.height - this.height - this.game.groundMargin;
-    this.speedX = 1;
     this.speedY = 0;
     this.maxFrame = 2;
     this.image = Boss.getImages()["emailBoss"];

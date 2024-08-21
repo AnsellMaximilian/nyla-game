@@ -59,3 +59,18 @@ export type DetailedImage = {
 export type GameResult = {
   isWin: boolean;
 };
+
+export type SetupValues = {
+  max: number;
+  default: number;
+  min: number;
+  step: number;
+};
+
+export type BossParams = {
+  healthBoost: number;
+  speedBoost: number;
+  attackSpeedBoost: number;
+  maxProjectiles: number;
+  projectileLifetime: number;
+};

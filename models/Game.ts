@@ -5,7 +5,7 @@ import { Background } from "./Background";
 import { Enemy, FlyingEnemy, GroundEnemy } from "./Enemy";
 import { UI } from "./UI";
 import { Boss, EmailBoss } from "@/lib/Boss";
-import { GameResult } from "@/type";
+import { BossParams, GameResult } from "@/type";
 
 class Game {
   width: number;
@@ -46,6 +46,7 @@ class Game {
     width: number,
     height: number,
     context: CanvasRenderingContext2D,
+    bossParams: BossParams,
     setGameResult: React.Dispatch<React.SetStateAction<GameResult | null>>
   ) {
     this.width = width;
@@ -70,7 +71,7 @@ class Game {
 
     this.score = 0;
 
-    this.boss = new EmailBoss(this);
+    this.boss = new EmailBoss(this, bossParams);
 
     this.setGameResult = setGameResult;
   }
