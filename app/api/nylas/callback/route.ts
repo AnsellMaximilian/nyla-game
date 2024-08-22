@@ -4,7 +4,7 @@ import { ID, Permission, Query, Role } from "node-appwrite";
 import { config } from "@/lib/appwrite";
 import { databases } from "@/lib/appwriteNode";
 import { createSession } from "@/lib/session";
-import { GrantRecord } from "@/type";
+import { GrantRecord, PlayerNyla } from "@/type";
 
 export async function GET(req: NextRequest) {
   const searchParams = req.nextUrl.searchParams;
@@ -79,6 +79,43 @@ export async function GET(req: NextRequest) {
             id_token: tokenData.id_token,
           }
         )) as GrantRecord;
+      } catch (error) {
+        console.log("UPPER", error);
+        if (error instanceof Error) console.log(error.message);
+        return NextResponse.json(
+          { error: "An unexpected error occurred." },
+          { status: 500 }
+        );
+      }
+    }
+
+    // creating player Nyla
+    let playerNyla: PlayerNyla | null = null;
+
+    try {
+      const res = await databases.listDocuments(
+        config.dbId,
+        config.playerNylaCollectionId,
+        [Query.equal("email", tokenData.email)]
+      );
+
+      if (res.total < 1) {
+        throw new Error("No player Nyla saved.");
+      } else {
+        playerNyla = res.documents[0] as PlayerNyla;
+      }
+      console.log("FOUND CREATED PLAYER NYLA");
+    } catch (error) {
+      try {
+        playerNyla = (await databases.createDocument(
+          config.dbId,
+          config.playerNylaCollectionId,
+          ID.unique(),
+          {
+            grant_id: tokenData.grant_id,
+            email: tokenData.email,
+          }
+        )) as PlayerNyla;
       } catch (error) {
         console.log("UPPER", error);
         if (error instanceof Error) console.log(error.message);

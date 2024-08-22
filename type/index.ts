@@ -36,7 +36,7 @@ export type RemoteDataWithSetter<T> = RemoteData<T> & {
 };
 
 export type SessionPayload = {
-  userId: string;
+  grantRecordId: string;
   expiresAt: Date;
 };
 
@@ -48,6 +48,16 @@ export type GrantRecord = Models.Document & {
   scope: string;
   token_type: string;
   id_token: string;
+};
+
+export type PlayerNyla = Models.Document & {
+  grant_id: string;
+  email: string;
+  trinkets: string[];
+  xp: number;
+  additiona_attack_multiplier: number;
+  additional_hearts: number;
+  additional_nyla_blast_damage: number;
 };
 
 export type SessionData = JWTPayload & SessionPayload;
