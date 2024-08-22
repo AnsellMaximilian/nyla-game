@@ -18,7 +18,7 @@ export default function GameRenderer({
   useEffect(() => {
     (async () => {
       if (gameResult) {
-        const res = await axios.get("/api/nylas/get-emails");
+        const res = await axios.post("/api/nylas/handle-win");
 
         console.log(res.data);
       }

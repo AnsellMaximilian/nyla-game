@@ -110,7 +110,7 @@ export async function GET(req: NextRequest) {
         playerNyla = (await databases.createDocument(
           config.dbId,
           config.playerNylaCollectionId,
-          ID.unique(),
+          grantRecord.$id,
           {
             grant_id: tokenData.grant_id,
             email: tokenData.email,
