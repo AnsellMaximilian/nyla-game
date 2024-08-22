@@ -37,8 +37,8 @@ class Player {
   hasAttacked = false;
 
   // health
-  maxHealth = 10;
-  currentHealth = 10;
+  maxHealth = 3;
+  currentHealth = 3;
 
   // damage. Properties that control player's behaviour when taking damage
   damageCooldownTimer = 0;

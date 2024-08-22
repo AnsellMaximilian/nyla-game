@@ -60,6 +60,8 @@ export type PlayerNyla = Models.Document & {
   additional_nyla_blast_damage: number;
 };
 
+export type ClientPlayerNyla = Omit<PlayerNyla, "$id">;
+
 export type SessionData = JWTPayload & SessionPayload;
 
 export type DetailedImage = {
