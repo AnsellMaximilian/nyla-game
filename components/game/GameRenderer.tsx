@@ -3,7 +3,8 @@
 import Game from "@/models/Game";
 import { BossParams, GameResult } from "@/type";
 import { getDefaultBossParams } from "@/utils/boss";
-import React, { useLayoutEffect, useRef, useState } from "react";
+import axios from "axios";
+import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 
 export default function GameRenderer({
   bossParams,
@@ -13,6 +14,16 @@ export default function GameRenderer({
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   const [gameResult, setGameResult] = useState<GameResult | null>(null);
+
+  useEffect(() => {
+    (async () => {
+      if (gameResult) {
+        const res = await axios.get("/api/nylas/get-emails");
+
+        console.log(res.data);
+      }
+    })();
+  }, [gameResult]);
 
   useLayoutEffect(() => {
     let game: Game;

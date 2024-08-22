@@ -64,11 +64,10 @@ export class Enemy {
   }
 
   static async prepareAssets() {
-    const fly = await loadImage("/images/test/enemy_fly.png");
-    const plant = await loadImage("/images/test/enemy_plant.png");
-
-    this.images["fly"] = fly;
-    this.images["plant"] = plant;
+    // const fly = await loadImage("/images/test/enemy_fly.png");
+    // const plant = await loadImage("/images/test/enemy_plant.png");
+    // this.images["fly"] = fly;
+    // this.images["plant"] = plant;
   }
 
   static getImages() {
