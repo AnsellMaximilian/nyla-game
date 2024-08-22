@@ -5,3 +5,8 @@ export const PlayerStatNames = {
   DAMAGE: "DAMAGE",
   NYLA_BLAST_DAMAGE: "NYLA_BLAST_DAMAGE",
 };
+
+export enum NylaMenu {
+  NYLA = "Nyla",
+  TRINKETS = "Trinkets",
+}

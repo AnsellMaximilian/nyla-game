@@ -12,7 +12,7 @@ export default async function Home() {
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      {session?.userId ? (
+      {session?.grantRecordId ? (
         <form action={logout}>
           You are logged in
           <button type="submit">Log out</button>

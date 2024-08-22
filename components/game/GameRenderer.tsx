@@ -14,6 +14,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { calculateLevelFromXP, calculateXPForLevel } from "@/utils/leveling";
+import { Button } from "@/components/ui/button";
 
 export default function GameRenderer({
   bossParams,
@@ -90,17 +91,17 @@ export default function GameRenderer({
       </div>
       <Dialog open={!!gameResult}>
         <DialogTrigger>Open</DialogTrigger>
-        <DialogContent className="bgxx-[#BCCxxxDFF] text-primxxxary vic-font">
+        <DialogContent className="bgxx-[#BCCxxxDFF] text-primxxxary vic-font max-w-full w-[750px]">
           <DialogHeader>
-            <DialogTitle>Congrats!</DialogTitle>
-            <DialogDescription>
-              This action cannot be undone. This will permanently delete your
-              account and remove your data from our servers.
-            </DialogDescription>
+            <DialogTitle className="text-4xl">Email Boss Felled!</DialogTitle>
+            <DialogDescription className="text-2xl">Nice job</DialogDescription>
           </DialogHeader>
-          <div>
+          <div className="text-xl ">
             <div>
-              <div>XP Gained</div>
+              <div className="font-semibold">
+                Level{" "}
+                {calculateLevelFromXP(updatedNyla ? updatedNyla.xp : nyla.xp)}
+              </div>
               <div className="border-border border-4 h-4 rounded-full">
                 <div
                   className="h-full bg-primary rounded-full transition-all duration-1000"
@@ -119,6 +120,9 @@ export default function GameRenderer({
                 {updatedNyla ? updatedNyla.xp : nyla.xp}/
                 {calculateXPForLevel(calculateLevelFromXP(nyla.xp) + 1)}
               </div>
+            </div>
+            <div className="mt-4 text-right">
+              <Button>Continue</Button>
             </div>
           </div>
         </DialogContent>
