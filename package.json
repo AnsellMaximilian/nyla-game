@@ -24,8 +24,10 @@
     "next": "14.2.5",
     "next-auth": "^4.24.7",
     "node-appwrite": "^13.0.0",
+    "nylas": "^7.5.2",
     "react": "^18",
     "react-dom": "^18",
+    "sanitize-html": "^2.13.0",
     "server-only": "^0.0.1",
     "tailwind-merge": "^2.5.2",
     "tailwindcss-animate": "^1.0.7"
@@ -34,6 +36,7 @@
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "@types/sanitize-html": "^2.13.0",
     "eslint": "^8",
     "eslint-config-next": "14.2.5",
     "postcss": "^8",

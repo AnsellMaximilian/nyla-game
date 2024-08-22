@@ -101,3 +101,42 @@ export type Trinket = {
   available: boolean;
   effect: string;
 };
+
+export type Attachment = {
+  id: string;
+  grant_id: string;
+  filename: string;
+  size: number;
+  content_type: string;
+  is_inline?: boolean;
+  content_disposition?: string;
+};
+
+export type EmailAddress = {
+  name: string;
+  email: string;
+};
+
+export type Email = {
+  starred: boolean;
+  unread: boolean;
+  folders: string[];
+  grant_id: string;
+  date: number;
+  attachments: Attachment[];
+  from: EmailAddress[];
+  id: string;
+  object: string;
+  snippet: string;
+  subject: string;
+  thread_id: string;
+  to: EmailAddress[];
+  created_at: number;
+  body: string;
+};
+
+export type NylasResponse<T> = {
+  request_id: string;
+  data: T[];
+  next_cursor: string;
+};
