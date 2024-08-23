@@ -134,6 +134,38 @@ export type Email = {
   body: string;
 };
 
+export type ContactGroup = {
+  id: string;
+};
+
+export type ContactEmail = {
+  email: string;
+  type?: string;
+};
+
+export type PhoneNumber = {
+  number: string;
+  type?: string;
+};
+
+export type Contact = {
+  company_name?: string;
+  emails: ContactEmail[];
+  given_name?: string;
+  groups: ContactGroup[];
+  id: string;
+  im_addresses: string[];
+  job_title?: string;
+  object: string;
+  phone_numbers: PhoneNumber[];
+  physical_addresses: string[];
+  picture_url?: string;
+  surname?: string;
+  source: string;
+  web_pages: string[];
+  updated_at: number;
+};
+
 export type NylasResponse<T> = {
   request_id: string;
   data: T[];

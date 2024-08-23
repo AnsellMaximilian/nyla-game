@@ -29,7 +29,9 @@ export default async function Home() {
           <Link href="/nyla" className="hover:scale-105">
             Your Nyla
           </Link>
-          <button className="hover:scale-105">Friends</button>
+          <Link href="/friends" className="hover:scale-105">
+            Friends
+          </Link>
           <form action={logout}>
             <button type="submit" className="hover:scale-105">
               Log out
