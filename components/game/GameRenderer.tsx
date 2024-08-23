@@ -1,7 +1,13 @@
 "use client";
 
 import Game from "@/models/Game";
-import { BossParams, ClientPlayerNyla, GameResult, PlayerNyla } from "@/type";
+import {
+  BossParams,
+  ClientPlayerNyla,
+  Email,
+  GameResult,
+  PlayerNyla,
+} from "@/type";
 import { getDefaultBossParams } from "@/utils/boss";
 import axios from "axios";
 import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
@@ -15,13 +21,16 @@ import {
 } from "@/components/ui/dialog";
 import { calculateLevelFromXP, calculateXPForLevel } from "@/utils/leveling";
 import { Button } from "@/components/ui/button";
+import EmailView from "../email/EmailView";
 
 export default function GameRenderer({
   bossParams,
+  email,
   nyla,
 }: {
   bossParams: BossParams;
   nyla: ClientPlayerNyla;
+  email: Email;
 }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -90,14 +99,13 @@ export default function GameRenderer({
         <canvas ref={canvasRef} className=" border-black border-4"></canvas>
       </div>
       <Dialog open={!!gameResult}>
-        <DialogTrigger>Open</DialogTrigger>
-        <DialogContent className="bgxx-[#BCCxxxDFF] text-primxxxary vic-font max-w-full w-[750px]">
+        <DialogContent className="bgxx-[#BCCxxxDFF] text-primxxxary vic-font max-w-full w-[750px] max-h-[90vh] overflow-auto">
           <DialogHeader>
             <DialogTitle className="text-4xl">Email Boss Felled!</DialogTitle>
             <DialogDescription className="text-2xl">Nice job</DialogDescription>
           </DialogHeader>
           <div className="text-xl ">
-            <div>
+            <div className="mb-8">
               <div className="font-semibold">
                 Level{" "}
                 {calculateLevelFromXP(updatedNyla ? updatedNyla.xp : nyla.xp)}
@@ -121,6 +129,10 @@ export default function GameRenderer({
                 {calculateXPForLevel(calculateLevelFromXP(nyla.xp) + 1)}
               </div>
             </div>
+            <div className="">
+              <EmailView email={email} />
+            </div>
+
             <div className="mt-4 text-right">
               <Button>Continue</Button>
             </div>

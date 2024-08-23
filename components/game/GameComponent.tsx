@@ -17,6 +17,8 @@ export default function GameComponent() {
   const [latestUnreadEmails, setLatestUnreadEmails] = useState<Email[]>([]);
   const [ready, setReady] = useState(false);
   const [selectedEmailId, setSelectedEmailId] = useState("");
+  const [emailLockedAnimationDone, setEmailLockedAnimationDone] =
+    useState(false);
 
   const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
@@ -91,25 +93,29 @@ export default function GameComponent() {
     );
   } else if (!ready && latestUnreadEmails.length <= 0) {
     return <div>You have no unread emails.</div>;
-  } else {
+  } else if (!emailLockedAnimationDone) {
     return (
       <EmailLocked
         onDone={() => {
-          console.log("TESTING");
+          setEmailLockedAnimationDone(true);
         }}
       />
     );
-
-    // return nyla && selectedEmail ? (
-    //   <>
-    //     {bossParams ? (
-    //       <GameRenderer bossParams={bossParams} nyla={nyla} />
-    //     ) : (
-    //       <GameSetup setBossParams={setBossParams} email={selectedEmail} />
-    //     )}
-    //   </>
-    // ) : (
-    //   <div>Error Fetching your Nyla</div>
-    // );
+  } else {
+    return nyla && selectedEmail ? (
+      <>
+        {bossParams ? (
+          <GameRenderer
+            bossParams={bossParams}
+            nyla={nyla}
+            email={selectedEmail}
+          />
+        ) : (
+          <GameSetup setBossParams={setBossParams} email={selectedEmail} />
+        )}
+      </>
+    ) : (
+      <div>Error Fetching your Nyla</div>
+    );
   }
 }
