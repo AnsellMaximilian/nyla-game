@@ -20,8 +20,10 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { calculateLevelFromXP, calculateXPForLevel } from "@/utils/leveling";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import EmailView from "../email/EmailView";
+import Link from "next/link";
+import { cn } from "@/lib/utils";
 
 export default function GameRenderer({
   bossParams,
@@ -136,7 +138,9 @@ export default function GameRenderer({
             </div>
 
             <div className="mt-4 text-right">
-              <Button>Continue</Button>
+              <Link href="/nyla" className={cn(buttonVariants({}))}>
+                Continue
+              </Link>
             </div>
           </div>
         </DialogContent>

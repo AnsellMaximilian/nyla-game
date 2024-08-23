@@ -6,6 +6,7 @@ import { SessionProvider } from "next-auth/react";
 import { cookies } from "next/headers";
 import Image from "next/image";
 import { logout } from "./actions/auth";
+import Link from "next/link";
 
 export default async function Home() {
   const session = await decrypt(cookies().get("session")?.value);
@@ -22,8 +23,12 @@ export default async function Home() {
       />
       {session?.grantRecordId ? (
         <div className="flex flex-col gap-2 text-2xl">
-          <button className="hover:scale-105">Battle</button>
-          <button className="hover:scale-105">Your Nyla</button>
+          <Link href="/game" className="hover:scale-105">
+            Battle
+          </Link>
+          <Link href="/nyla" className="hover:scale-105">
+            Your Nyla
+          </Link>
           <button className="hover:scale-105">Friends</button>
           <form action={logout}>
             <button type="submit" className="hover:scale-105">
