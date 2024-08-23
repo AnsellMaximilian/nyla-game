@@ -9,6 +9,7 @@ import { Button } from "../ui/button";
 import Container from "../Container";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
+import EmailLocked from "../animation/EmailLocked";
 
 export default function GameComponent() {
   const [bossParams, setBossParams] = useState<null | BossParams>(null);
@@ -52,7 +53,7 @@ export default function GameComponent() {
   if (!ready && latestUnreadEmails.length > 0) {
     return (
       <Container>
-        <div className="text-xl flex flex-col gap-4 max-w-full">
+        <div className="text-xl flex flex-col gap-4 max-w-full overflow-x-hidden overflow-y-hidden">
           {latestUnreadEmails.map((email) => {
             return (
               <div
@@ -91,16 +92,24 @@ export default function GameComponent() {
   } else if (!ready && latestUnreadEmails.length <= 0) {
     return <div>You have no unread emails.</div>;
   } else {
-    return nyla && selectedEmail ? (
-      <>
-        {bossParams ? (
-          <GameRenderer bossParams={bossParams} nyla={nyla} />
-        ) : (
-          <GameSetup setBossParams={setBossParams} email={selectedEmail} />
-        )}
-      </>
-    ) : (
-      <div>Error Fetching your Nyla</div>
+    return (
+      <EmailLocked
+        onDone={() => {
+          console.log("TESTING");
+        }}
+      />
     );
+
+    // return nyla && selectedEmail ? (
+    //   <>
+    //     {bossParams ? (
+    //       <GameRenderer bossParams={bossParams} nyla={nyla} />
+    //     ) : (
+    //       <GameSetup setBossParams={setBossParams} email={selectedEmail} />
+    //     )}
+    //   </>
+    // ) : (
+    //   <div>Error Fetching your Nyla</div>
+    // );
   }
 }
