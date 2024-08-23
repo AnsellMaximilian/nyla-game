@@ -1,25 +1,34 @@
 "use client";
 
 import Image from "next/image";
-import React from "react";
+import React, { useState } from "react";
 import Container from "../Container";
 import { ClientPlayerNyla } from "@/type";
 import { calculateLevelFromXP, calculateXPForLevel } from "@/utils/leveling";
 import { Separator } from "@radix-ui/react-separator";
 import { Button } from "../ui/button";
 import { Minus, Plus } from "lucide-react";
-import { baseUpgradeStats } from "@/const/player";
+import { BaseUpgradeProperty, baseUpgradeStats } from "@/const/player";
+import axios from "axios";
 
 const NylaStat = ({
   stat,
   base,
   addition,
+  nyla,
+  canAdd = false,
+  canSubtract = false,
+  onAdd,
+  onSubtract,
 }: {
   stat: string;
   base: number;
   addition: number;
   onAdd: () => void;
   onSubtract: () => void;
+  nyla: ClientPlayerNyla;
+  canAdd?: boolean;
+  canSubtract?: boolean;
 }) => {
   return (
     <div className="flex justify-between text-2xl">
@@ -27,12 +36,13 @@ const NylaStat = ({
       <div className="flex gap-2 items-center">
         <div className="font-bold">{base}</div>
         <div className="gap-2 flex items-center text-lg">
-          <Button className="p-2">
-            <Plus size={16} />
+          <Button className="p-2" disabled={!canSubtract} onClick={onSubtract}>
+            <Minus size={16} />
           </Button>
           <div>+{addition}</div>
-          <Button className="p-2">
-            <Minus size={16} />
+
+          <Button className="p-2" disabled={!canAdd} onClick={onAdd}>
+            <Plus size={16} />
           </Button>
         </div>
       </div>
@@ -40,7 +50,27 @@ const NylaStat = ({
   );
 };
 
-export default function NylaProfile({ nyla }: { nyla: ClientPlayerNyla }) {
+export default function NylaProfile({
+  nyla: nylaOld,
+}: {
+  nyla: ClientPlayerNyla;
+}) {
+  const [chosenUpgrades, setChosenUpgrades] = useState<BaseUpgradeProperty[]>(
+    []
+  );
+
+  const [nyla, setNyla] = useState(nylaOld);
+
+  const availablePoints = calculateLevelFromXP(nyla.xp) - nyla.upgrades.length;
+
+  const handleUpgrade = async () => {
+    const res = await axios.post("/api/nylas/upgrade", {
+      upgrades: chosenUpgrades,
+    });
+
+    setNyla(res.data as ClientPlayerNyla);
+    setChosenUpgrades([]);
+  };
   return (
     <Container>
       <div className="flex gap-8">
@@ -64,31 +94,88 @@ export default function NylaProfile({ nyla }: { nyla: ClientPlayerNyla }) {
             <h2 className="text-2xl font-bold">Upgrades</h2>
             <div className="mt-4 space-y-2">
               <NylaStat
-                onAdd={() => {}}
-                onSubtract={() => {}}
+                canAdd={availablePoints - chosenUpgrades.length > 0}
+                canSubtract={chosenUpgrades.includes("ATTACK")}
+                nyla={nyla}
+                onAdd={() => {
+                  setChosenUpgrades((prev) => [...prev, "ATTACK"]);
+                }}
+                onSubtract={() => {
+                  setChosenUpgrades((prev) => {
+                    const newArr = [...prev];
+
+                    let index = newArr.lastIndexOf("ATTACK");
+                    if (index !== -1) {
+                      newArr.splice(index, 1);
+                    }
+
+                    return newArr;
+                  });
+                }}
                 stat="Attack"
                 base={baseUpgradeStats.ATTACK}
                 addition={200}
               />
 
               <NylaStat
-                onAdd={() => {}}
-                onSubtract={() => {}}
+                canAdd={availablePoints - chosenUpgrades.length > 0}
+                canSubtract={chosenUpgrades.includes("HEALTH")}
+                nyla={nyla}
+                onAdd={() => {
+                  setChosenUpgrades((prev) => [...prev, "HEALTH"]);
+                }}
+                onSubtract={() => {
+                  setChosenUpgrades((prev) => {
+                    const newArr = [...prev];
+
+                    let index = newArr.lastIndexOf("HEALTH");
+                    if (index !== -1) {
+                      newArr.splice(index, 1);
+                    }
+
+                    return newArr;
+                  });
+                }}
                 stat="Health"
                 base={baseUpgradeStats.ATTACK}
                 addition={200}
               />
 
               <NylaStat
-                onAdd={() => {}}
-                onSubtract={() => {}}
+                canAdd={availablePoints - chosenUpgrades.length > 0}
+                canSubtract={chosenUpgrades.includes("SPEED")}
+                nyla={nyla}
+                onAdd={() => {
+                  setChosenUpgrades((prev) => [...prev, "SPEED"]);
+                }}
+                onSubtract={() => {
+                  setChosenUpgrades((prev) => {
+                    const newArr = [...prev];
+
+                    let index = newArr.lastIndexOf("SPEED");
+                    if (index !== -1) {
+                      newArr.splice(index, 1);
+                    }
+
+                    return newArr;
+                  });
+                }}
                 stat="Speed"
                 base={baseUpgradeStats.ATTACK}
                 addition={200}
               />
             </div>
+            <div className="flex justify-end mt-4 text-xl">
+              Avaliable points: {availablePoints}
+            </div>
             <div className="mt-auto text-right">
-              <Button className="text-xl">Confirm Upgrade</Button>
+              <Button
+                className="text-xl"
+                disabled={availablePoints != chosenUpgrades.length}
+                onClick={handleUpgrade}
+              >
+                Confirm Upgrade
+              </Button>
             </div>
           </div>
         </div>

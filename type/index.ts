@@ -1,5 +1,5 @@
 import { SetupNames } from "@/const/boss-setup";
-import { PlayerStatNames } from "@/const/player";
+import { BaseUpgradeProperty, PlayerStatNames } from "@/const/player";
 import { Models } from "appwrite";
 import { JWTPayload } from "jose";
 import { Dispatch, SetStateAction } from "react";
@@ -54,10 +54,15 @@ export type PlayerNyla = Models.Document & {
   grant_id: string;
   email: string;
   trinkets: string[];
+
   xp: number;
   additiona_attack_multiplier: number;
   additional_hearts: number;
   additional_nyla_blast_damage: number;
+
+  upgrades: BaseUpgradeProperty[];
+
+  equipped_trinkets: string[];
 };
 
 export type ClientPlayerNyla = Omit<PlayerNyla, "$id">;
