@@ -3,31 +3,104 @@
 import React, { useEffect, useState } from "react";
 import GameRenderer from "./GameRenderer";
 import GameSetup from "./GameSetup";
-import { BossParams, ClientPlayerNyla, PlayerNyla } from "@/type";
+import { BossParams, ClientPlayerNyla, Email, PlayerNyla } from "@/type";
 import axios from "axios";
+import { Button } from "../ui/button";
+import Container from "../Container";
+import Image from "next/image";
+import { cn } from "@/lib/utils";
 
 export default function GameComponent() {
   const [bossParams, setBossParams] = useState<null | BossParams>(null);
   const [nyla, setNyla] = useState<ClientPlayerNyla | null>(null);
+  const [latestUnreadEmails, setLatestUnreadEmails] = useState<Email[]>([]);
+  const [ready, setReady] = useState(false);
+  const [selectedEmailId, setSelectedEmailId] = useState("");
+
+  const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
     (async () => {
-      const res = await axios.get("/api/nylas/get-nyla");
+      const nylaRes = await axios.get("/api/nylas/get-nyla");
 
-      const nyla = res.data as ClientPlayerNyla;
+      const nyla = nylaRes.data as ClientPlayerNyla;
+
+      const emailsRes = await axios.get("/api/nylas/get-emails", {
+        params: {
+          limit: 5,
+          unread: true,
+        },
+      });
+
+      const emails = emailsRes.data as Email[];
 
       setNyla(nyla);
+
+      setLatestUnreadEmails(emails);
+
+      setIsLoading(false);
     })();
   }, []);
 
-  return nyla ? (
-    <>
-      {bossParams ? (
-        <GameRenderer bossParams={bossParams} nyla={nyla} />
-      ) : (
-        <GameSetup setBossParams={setBossParams} />
-      )}
-    </>
-  ) : (
-    <div>Loading</div>
+  const selectedEmail = latestUnreadEmails.find(
+    (e) => selectedEmailId === e.id
   );
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (!ready && latestUnreadEmails.length > 0) {
+    return (
+      <Container>
+        <div className="text-xl flex flex-col gap-4 max-w-full">
+          {latestUnreadEmails.map((email) => {
+            return (
+              <div
+                key={email.id}
+                onClick={() => setSelectedEmailId(email.id)}
+                className={cn(
+                  "flex text-black cursor-pointer hover:scale-105 origin-top-left brightness-75",
+                  selectedEmailId === email.id ? "brightness-100" : ""
+                )}
+              >
+                <Image
+                  src="/images/email.png"
+                  width={120}
+                  height={90}
+                  alt="Email"
+                />
+                <div className="bg-[url('/images/paper-texture.png')] p-4 rounded-r-md overflow-hidden">
+                  <div>{email.subject}</div>
+                  <div>- {email.from[0]?.email}</div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+        <div className="text-right mt-8">
+          <Button
+            className="text-2xl px-8 py-6 "
+            disabled={!selectedEmail}
+            onClick={() => setReady(true)}
+          >
+            Fight?
+          </Button>
+        </div>
+      </Container>
+    );
+  } else if (!ready && latestUnreadEmails.length <= 0) {
+    return <div>You have no unread emails.</div>;
+  } else {
+    return nyla && selectedEmail ? (
+      <>
+        {bossParams ? (
+          <GameRenderer bossParams={bossParams} nyla={nyla} />
+        ) : (
+          <GameSetup setBossParams={setBossParams} email={selectedEmail} />
+        )}
+      </>
+    ) : (
+      <div>Error Fetching your Nyla</div>
+    );
+  }
 }

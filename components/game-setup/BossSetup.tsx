@@ -6,12 +6,14 @@ import SetupItem from "@/components/game-setup/SetupItem";
 import { Slider } from "@/components/ui/slider";
 import { Switch } from "@/components/ui/switch";
 import { SETUP_VALUES, SetupNames } from "@/const/boss-setup";
-import { BossParams } from "@/type";
+import { BossParams, Email } from "@/type";
 
 export default function BossSetup({
   setBossParams,
+  email,
 }: {
   setBossParams: React.Dispatch<React.SetStateAction<BossParams | null>>;
+  email: Email;
 }) {
   const [attackSpeedBoost, setAttackSpeedBoost] = useState(
     SETUP_VALUES[SetupNames.ATTACK_SPEED].default
@@ -51,7 +53,7 @@ export default function BossSetup({
               Adjust the Email Boss&apos; difficulty for more Experience
             </p>
           </div>
-          <div className="flex gap-4 mt-4">
+          <div className="flex gap-8 mt-4">
             <div className="flex flex-col gap-2">
               <div className="w-[192px] h-[192px] overflow-hidden">
                 <Image
@@ -62,7 +64,7 @@ export default function BossSetup({
                   className="border-8 border-black"
                 />
               </div>
-              <h3 className="text-3xl font-semibold">Boss Name</h3>
+              <h3 className="text-3xl font-semibold">{email.subject}</h3>
             </div>
             <div className="text-2xl grow">
               <div className="space-y-5">

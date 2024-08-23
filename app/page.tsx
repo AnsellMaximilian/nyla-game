@@ -13,10 +13,13 @@ export default async function Home() {
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
       {session?.grantRecordId ? (
-        <form action={logout}>
-          You are logged in
-          <button type="submit">Log out</button>
-        </form>
+        <div>
+          <h1>You are logged in</h1>
+          <Button>Get Email</Button>
+          <form action={logout}>
+            <button type="submit">Log out</button>
+          </form>
+        </div>
       ) : (
         <NylasLoginButton />
       )}

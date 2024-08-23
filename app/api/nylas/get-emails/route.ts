@@ -11,6 +11,9 @@ import sanitizeHtml from "sanitize-html";
 
 export async function GET(req: NextRequest) {
   const session = await decrypt(cookies().get("session")?.value);
+  const searchParams = req.nextUrl.searchParams;
+  const unread = searchParams.get("unread") === "true";
+  const limit = Number(searchParams.get("limit"));
 
   if (!session?.grantRecordId) {
     return NextResponse.json(
@@ -39,8 +42,8 @@ export async function GET(req: NextRequest) {
         "Content-Type": "application/json",
       },
       params: {
-        limit: 1,
-        unread: true,
+        limit: limit ? limit : 1,
+        unread: unread ? unread : undefined,
       },
     }
   );
@@ -62,5 +65,8 @@ export async function GET(req: NextRequest) {
   //   }
   // })
 
-  return NextResponse.json(latestEmails.data[0]);
+  // return NextResponse.json(latestEmails.data[0]);
+  return NextResponse.json(
+    latestEmails.data.map((e) => ({ ...e, grant_id: undefined }))
+  );
 }

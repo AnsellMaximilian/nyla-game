@@ -121,7 +121,6 @@ export type Email = {
   starred: boolean;
   unread: boolean;
   folders: string[];
-  grant_id: string;
   date: number;
   attachments: Attachment[];
   from: EmailAddress[];
