@@ -11,13 +11,24 @@ export default async function Home() {
   const session = await decrypt(cookies().get("session")?.value);
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
+    <main className="grow flex flex-col items-center justify-center p-24 bg-blue-950 text-white vic-font text-xl text-center">
+      {/* <h1 className="text-6xl font-bold mb-8">NYLA the CAT</h1> */}
+      <Image
+        src="/images/nyla-logo.png"
+        width={320}
+        height={154}
+        className="w-[320px] mb-8"
+        alt="logo"
+      />
       {session?.grantRecordId ? (
-        <div>
-          <h1>You are logged in</h1>
-          <Button>Get Email</Button>
+        <div className="flex flex-col gap-2 text-2xl">
+          <button className="hover:scale-105">Battle</button>
+          <button className="hover:scale-105">Your Nyla</button>
+          <button className="hover:scale-105">Friends</button>
           <form action={logout}>
-            <button type="submit">Log out</button>
+            <button type="submit" className="hover:scale-105">
+              Log out
+            </button>
           </form>
         </div>
       ) : (
