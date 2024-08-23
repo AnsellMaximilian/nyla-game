@@ -86,7 +86,7 @@ export default function GameComponent() {
             disabled={!selectedEmail}
             onClick={() => setReady(true)}
           >
-            Fight?
+            Read Email?
           </Button>
         </div>
       </Container>

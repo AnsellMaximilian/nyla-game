@@ -101,7 +101,9 @@ export default function GameRenderer({
       <Dialog open={!!gameResult}>
         <DialogContent className="bgxx-[#BCCxxxDFF] text-primxxxary vic-font max-w-full w-[750px] max-h-[90vh] overflow-auto">
           <DialogHeader>
-            <DialogTitle className="text-4xl">Email Boss Felled!</DialogTitle>
+            <DialogTitle className="text-4xl">
+              Email Boss Felled! Happy Reading!
+            </DialogTitle>
             <DialogDescription className="text-2xl">Nice job</DialogDescription>
           </DialogHeader>
           <div className="text-xl ">
