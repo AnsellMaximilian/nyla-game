@@ -3,12 +3,16 @@
 import Image from "next/image";
 import React, { useState } from "react";
 import Container from "../Container";
-import { ClientPlayerNyla } from "@/type";
+import { ClientPlayerNyla, PlayerNyla } from "@/type";
 import { calculateLevelFromXP, calculateXPForLevel } from "@/utils/leveling";
 import { Separator } from "@radix-ui/react-separator";
 import { Button } from "../ui/button";
 import { Minus, Plus } from "lucide-react";
-import { BaseUpgradeProperty, baseUpgradeStats } from "@/const/player";
+import {
+  BaseUpgradeProperty,
+  baseUpgradeStats,
+  PLAYER_BASE_STATS,
+} from "@/const/player";
 import axios from "axios";
 
 const NylaStat = ({
@@ -23,7 +27,7 @@ const NylaStat = ({
 }: {
   stat: string;
   base: number;
-  addition: number;
+  addition: string;
   onAdd: () => void;
   onSubtract: () => void;
   nyla: ClientPlayerNyla;
@@ -39,7 +43,7 @@ const NylaStat = ({
           <Button className="p-2" disabled={!canSubtract} onClick={onSubtract}>
             <Minus size={16} />
           </Button>
-          <div>+{addition}</div>
+          <div>{addition}</div>
 
           <Button className="p-2" disabled={!canAdd} onClick={onAdd}>
             <Plus size={16} />
@@ -113,8 +117,16 @@ export default function NylaProfile({
                   });
                 }}
                 stat="Attack"
-                base={baseUpgradeStats.ATTACK}
-                addition={200}
+                base={
+                  PLAYER_BASE_STATS.ATTACK +
+                  baseUpgradeStats.ATTACK *
+                    (nyla as PlayerNyla).upgrades.filter((u) => u === "ATTACK")
+                      .length
+                }
+                addition={`+${
+                  baseUpgradeStats.ATTACK *
+                  chosenUpgrades.filter((u) => u === "ATTACK").length
+                }`}
               />
 
               <NylaStat
@@ -137,8 +149,16 @@ export default function NylaProfile({
                   });
                 }}
                 stat="Health"
-                base={baseUpgradeStats.ATTACK}
-                addition={200}
+                base={
+                  PLAYER_BASE_STATS.HEALTH +
+                  baseUpgradeStats.HEALTH *
+                    (nyla as PlayerNyla).upgrades.filter((u) => u === "HEALTH")
+                      .length
+                }
+                addition={`+${
+                  baseUpgradeStats.HEALTH *
+                  chosenUpgrades.filter((u) => u === "HEALTH").length
+                }`}
               />
 
               <NylaStat
@@ -161,8 +181,16 @@ export default function NylaProfile({
                   });
                 }}
                 stat="Speed"
-                base={baseUpgradeStats.ATTACK}
-                addition={200}
+                base={
+                  PLAYER_BASE_STATS.SPEED +
+                  baseUpgradeStats.SPEED *
+                    (nyla as PlayerNyla).upgrades.filter((u) => u === "SPEED")
+                      .length
+                }
+                addition={`+${
+                  baseUpgradeStats.SPEED *
+                  chosenUpgrades.filter((u) => u === "SPEED").length
+                }`}
               />
             </div>
             <div className="flex justify-end mt-4 text-xl">

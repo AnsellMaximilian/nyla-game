@@ -27,3 +27,10 @@ export const PlayerBaseStats = {
 export type BaseUpgradeProperty = keyof typeof baseUpgradeStats;
 
 export const MAX_TRINKETS = 2;
+
+export const PLAYER_BASE_STATS = {
+  ATTACK: 20,
+  HEALTH: 3,
+  SPEED: 2,
+  DASH_COOLDOWN: 100,
+};

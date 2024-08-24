@@ -3,6 +3,7 @@ import Game from "./Game";
 import { Falling, Jumping, Running, Sitting, State } from "./State";
 import { PlayerState } from "@/const/states";
 import { Dust } from "./Particle";
+import { PLAYER_BASE_STATS } from "@/const/player";
 
 class Player {
   game: Game;
@@ -37,8 +38,8 @@ class Player {
   hasAttacked = false;
 
   // health
-  maxHealth = 3;
-  currentHealth = 3;
+  maxHealth = PLAYER_BASE_STATS.HEALTH;
+  currentHealth = this.maxHealth;
 
   // damage. Properties that control player's behaviour when taking damage
   damageCooldownTimer = 0;
@@ -63,7 +64,7 @@ class Player {
     this.x = 0;
     this.y = this.game.height - this.height - this.game.groundMargin;
     this.speed = 0;
-    this.maxSpeed = 2;
+    this.maxSpeed = PLAYER_BASE_STATS.SPEED;
     this.vy = 0;
     this.weight = 0.5;
 
@@ -336,7 +337,7 @@ class Player {
       this.game.boss.wasJustAttacked = true;
 
       if (this.game.boss.currentHealth - 1 > 0)
-        this.game.boss.currentHealth -= 20;
+        this.game.boss.currentHealth -= PLAYER_BASE_STATS.ATTACK;
       for (let i = 0; i < 10; i++) {
         this.game.boss.particles.push(
           new Dust(
