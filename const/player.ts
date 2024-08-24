@@ -32,5 +32,5 @@ export const PLAYER_BASE_STATS = {
   ATTACK: 20,
   HEALTH: 3,
   SPEED: 2,
-  DASH_COOLDOWN: 100,
+  DASH_COOLDOWN: 2000,
 };

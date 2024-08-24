@@ -51,7 +51,9 @@ class Player {
 
   // dash
   dashTimer = 0;
+  dashCooldownTimer = 0;
   dashDuration = 200;
+  dashCooldownDuration = PLAYER_BASE_STATS.DASH_COOLDOWN;
   isInDash = false;
   isDashInCooldown = false;
   hasDashed = false;
@@ -96,7 +98,7 @@ class Player {
       this.checkAttackCollisons();
     }
     this.currentState.handleInput(keys);
-    this.x += this.speed * (this.isInDash ? 10 : 1);
+    this.x += this.speed * (this.isInDash ? 20 : 1);
     if (keys.includes("ArrowRight")) {
       this.speed = this.maxSpeed;
       this.isBackwards = false;
@@ -118,7 +120,7 @@ class Player {
 
     // dash
     if (keys.includes("z") || keys.includes("Z")) {
-      if (!this.isInDash) {
+      if (!this.isDashInCooldown && !this.isInDash) {
         this.isInDash = true;
       }
     }
@@ -148,17 +150,24 @@ class Player {
     }
 
     // dash
-    if (this.dashTimer > this.dashDuration) {
-      this.dashTimer = 0;
-      if (this.isInDash) {
+    if (this.isInDash) {
+      if (this.dashTimer > this.dashDuration) {
+        this.dashTimer = 0;
         this.isInDash = false;
         this.isDashInCooldown = true;
         this.hasDashed = false;
       } else {
-        this.isDashInCooldown = false;
+        this.dashTimer += deltaTime;
       }
-    } else {
-      this.dashTimer += deltaTime;
+    }
+
+    if (this.isDashInCooldown) {
+      if (this.dashCooldownTimer > this.dashCooldownDuration) {
+        this.dashCooldownTimer = 0;
+        this.isDashInCooldown = false;
+      } else {
+        this.dashCooldownTimer += deltaTime;
+      }
     }
 
     this.y += this.vy;
