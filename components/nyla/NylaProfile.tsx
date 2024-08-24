@@ -43,7 +43,7 @@ const NylaStat = ({
           <Button className="p-2" disabled={!canSubtract} onClick={onSubtract}>
             <Minus size={16} />
           </Button>
-          <div>{addition}</div>
+          <div className="w-12 text-center">{addition}</div>
 
           <Button className="p-2" disabled={!canAdd} onClick={onAdd}>
             <Plus size={16} />
@@ -199,7 +199,10 @@ export default function NylaProfile({
             <div className="mt-auto text-right">
               <Button
                 className="text-xl"
-                disabled={availablePoints != chosenUpgrades.length}
+                disabled={
+                  availablePoints != chosenUpgrades.length &&
+                  availablePoints > 0
+                }
                 onClick={handleUpgrade}
               >
                 Confirm Upgrade
