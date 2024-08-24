@@ -4,7 +4,7 @@ import TrinketList from "../trinkets/TrinketList";
 import { Button } from "@/components/ui/button";
 import { NylaMenu as INylaMenu } from "@/const/player";
 import NylaProfile from "./NylaProfile";
-import { ClientPlayerNyla } from "@/type";
+import { ClientPlayerNyla, PlayerNyla } from "@/type";
 
 const MENU = [INylaMenu.NYLA, INylaMenu.TRINKETS];
 
@@ -28,7 +28,7 @@ export default function NylaMenu({ nyla }: { nyla: ClientPlayerNyla }) {
         {selectedMenu === INylaMenu.NYLA ? (
           <NylaProfile nyla={nyla} />
         ) : (
-          <TrinketList />
+          <TrinketList nyla={nyla as PlayerNyla} />
         )}
       </div>
     </div>
