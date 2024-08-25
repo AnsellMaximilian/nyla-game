@@ -1,4 +1,5 @@
 import sanitizeHtml from "sanitize-html";
+import { differenceInHours, formatDistanceToNow } from "date-fns";
 
 export const loadImage = (src: string): Promise<HTMLImageElement> => {
   return new Promise((resolve, reject) => {
@@ -23,3 +24,32 @@ export const extractStringFromEmailBody = (htmlStr: string) => {
     allowedAttributes: {}, // No attributes allowed
   }).trim();
 };
+
+export function hasBeenADaySince(updatedAt: string): boolean {
+  const currentDate = new Date();
+  const updatedAtDate = new Date(updatedAt);
+
+  return currentDate.getTime() - updatedAtDate.getTime() >= 24 * 60 * 60 * 1000;
+}
+
+export function timeSince(now: string): string {
+  const nowDate = new Date(now);
+
+  return formatDistanceToNow(nowDate, { addSuffix: true });
+}
+
+export function timeUntilNextSpin(lastSpin: string | null): string {
+  if (lastSpin === null) return "Spin for Trinket";
+  const now = new Date();
+  const lastSpinDate = new Date(lastSpin);
+  const hoursSinceLastSpin = differenceInHours(now, lastSpinDate);
+
+  if (hoursSinceLastSpin >= 24) {
+    return "Spin for Trinket";
+  } else {
+    const timeUntilNextSpin = 24 - hoursSinceLastSpin;
+    return `Next spin in ${formatDistanceToNow(
+      new Date(now.getTime() + timeUntilNextSpin * 60 * 60 * 1000)
+    )}`;
+  }
+}

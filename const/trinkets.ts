@@ -70,4 +70,30 @@ export const TRINKETS: Trinket[] = [
     image: "/images/trinkets/sunbeam-scepter.png",
     boostValue: 4,
   },
+  {
+    id: "MIDNIGHT_PURRY_FISHBONE",
+    name: "Midnight Purry Fishbone",
+    description:
+      "This ancient fishbone is a relic from the mythical Midnight Purry fish, a creature older than the feline species itself. Captured by the Prince of Purrsia and later studied by cat mages, the bone was found to harbor immense magical potential. A powerful gemstone has been embedded in its eye socket to channel its energy. When worn, the Midnight Purry Fishbone grants Nyla extraordinary mystical abilities, enhancing her spell power and increasing her mana regeneration.",
+    effect:
+      "Boosts spell power and enhances mana regeneration, allowing for more frequent use of magical abilities.",
+    available: true,
+    boostedStat: "NYLA_BLAST_DAMAGE",
+    boostType: "INCREASE",
+    image: "/images/trinkets/midnight-purry-fishbone.png",
+    boostValue: 5,
+  },
+  {
+    id: "FANG_OF_RUFFUS_CEASAR",
+    name: "Fang of Ruffus Caesar",
+    description:
+      "In an unprecedented moment of unity, ancient cats and dogs forged a brief but powerful alliance. This was made possible by the love between Ruffus Caesar and Cleopawtra. When Ruffus fell in battle, he gifted Cleopawtra one of his fangs. Cleopawtra, in her grief and love, forged this fang into a formidable blade. The Fang of Ruffus Caesar grants its feline wielder the strength of a canine, embodying the power and loyalty of the ancient alliance.",
+    effect:
+      "Grants a significant boost to strength and attack power, channeling the enduring spirit and might of the canine warrior.",
+    available: true,
+    boostedStat: "DAMAGE",
+    boostType: "INCREASE",
+    image: "/images/trinkets/fang-of-ruffus-caesar.png",
+    boostValue: 6,
+  },
 ];

@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { config } from "@/lib/appwrite";
 import { databases } from "@/lib/appwriteNode";
 import { decrypt } from "@/lib/session";
-import { ClientPlayerNyla } from "@/type";
+import { ClientPlayerNyla, PlayerNyla } from "@/type";
 import axios from "axios";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
@@ -15,11 +15,13 @@ export default async function Page() {
 
   if (!session?.grantRecordId) redirect("/");
 
-  const nyla = await databases.getDocument(
+  const nyla = (await databases.getDocument(
     config.dbId,
     config.playerNylaCollectionId,
     session?.grantRecordId
-  );
+  )) as PlayerNyla;
+
+  // console.log(nyla.$createdAt);
 
   return (
     <div className="container mx-auto p-8">

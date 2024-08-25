@@ -5,6 +5,8 @@ import { Button } from "@/components/ui/button";
 import { NylaMenu as INylaMenu } from "@/const/player";
 import NylaProfile from "./NylaProfile";
 import { ClientPlayerNyla, PlayerNyla } from "@/type";
+import Spinner from "../trinkets/Spinner";
+import { TRINKETS } from "@/const/trinkets";
 
 const MENU = [INylaMenu.NYLA, INylaMenu.TRINKETS];
 
@@ -29,6 +31,7 @@ export default function NylaMenu({ nyla }: { nyla: ClientPlayerNyla }) {
           <NylaProfile nyla={nyla} />
         ) : (
           <TrinketList nyla={nyla as PlayerNyla} />
+          // <Spinner trinkets={TRINKETS} selectedTrinketId="SUNBEAM_SCEPTER" />
         )}
       </div>
     </div>

@@ -63,6 +63,8 @@ export type PlayerNyla = Models.Document & {
   upgrades: BaseUpgradeProperty[];
 
   equipped_trinkets: string[];
+
+  last_trinket_spin: null | string;
 };
 
 export type ClientPlayerNyla = Omit<PlayerNyla, "$id">;
