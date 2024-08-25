@@ -56,6 +56,17 @@ export class UI {
     // ctx.strokeRect(20, 20, 300, 30);
     ctx.strokeRect(this.game.width - 300 - 20, 20, 300, 30);
 
+    if (this.game.debug) {
+      ctx.textAlign = "right";
+      ctx.font = this.fontSize - 10 + "px " + this.fontFamily;
+      ctx.fillStyle = "black";
+      ctx.fillText(
+        `${this.game.boss.currentHealth}/${this.game.boss.maxHealth}`,
+        this.game.width - 300 - 20 + 100,
+        20 + 22
+      );
+    }
+
     // game over screen
     if (this.game.gameOver) {
       ctx.textAlign = "center";

@@ -11,6 +11,7 @@ import Image from "next/image";
 import { cn } from "@/lib/utils";
 import EmailLocked from "../animation/EmailLocked";
 import HomeButton from "../HomeButton";
+import { getDefaultBossParams } from "@/utils/boss";
 
 export default function GameComponent() {
   const [bossParams, setBossParams] = useState<null | BossParams>(null);
