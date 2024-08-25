@@ -78,7 +78,10 @@ class Game {
   }
 
   update(deltaTime: number) {
-    if (this.player.currentHealth <= 0 || this.boss.currentHealth <= 0) {
+    if (this.player.currentHealth <= 0) {
+      this.gameOver = true;
+      this.setGameResult({ isWin: false });
+    } else if (this.boss.currentHealth <= 0) {
       this.gameOver = true;
       this.setGameResult({ isWin: true });
     }

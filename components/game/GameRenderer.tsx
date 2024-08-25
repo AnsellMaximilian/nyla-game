@@ -39,15 +39,18 @@ export default function GameRenderer({
   const [gameResult, setGameResult] = useState<GameResult | null>(null);
 
   const [updatedNyla, setUpdatedNyla] = useState<ClientPlayerNyla | null>(null);
+  const [handlingWin, setHandlingWin] = useState(false);
 
   useEffect(() => {
     (async () => {
-      if (gameResult) {
+      if (gameResult?.isWin) {
+        setHandlingWin(true);
         const res = await axios.post("/api/nylas/handle-win");
 
         const updatedNyla = res.data as ClientPlayerNyla;
 
         setUpdatedNyla(updatedNyla);
+        setHandlingWin(false);
       }
     })();
   }, [gameResult]);
@@ -104,9 +107,15 @@ export default function GameRenderer({
         <DialogContent className="bgxx-[#BCCxxxDFF] text-primxxxary vic-font max-w-full w-[750px] max-h-[90vh] overflow-auto">
           <DialogHeader>
             <DialogTitle className="text-4xl">
-              Email Boss Felled! Happy Reading!
+              {gameResult?.isWin
+                ? "Email Boss Felled! Happy Reading!"
+                : "Better luck next time!"}
             </DialogTitle>
-            <DialogDescription className="text-2xl">Nice job</DialogDescription>
+            <DialogDescription className="text-2xl">
+              {gameResult?.isWin
+                ? "Nice job. You received some xp."
+                : "Try upgrading your Nyla or using different trinkets."}
+            </DialogDescription>
           </DialogHeader>
           <div className="text-xl ">
             <div className="mb-8">
@@ -134,13 +143,17 @@ export default function GameRenderer({
               </div>
             </div>
             <div className="">
-              <EmailView email={email} />
+              {gameResult?.isWin && <EmailView email={email} />}
             </div>
 
             <div className="mt-4 text-right">
-              <Link href="/nyla" className={cn(buttonVariants({}))}>
-                Continue
-              </Link>
+              {handlingWin ? (
+                <Button disabled>Loading...</Button>
+              ) : (
+                <Link href="/nyla" className={cn(buttonVariants({}))}>
+                  Continue
+                </Link>
+              )}
             </div>
           </div>
         </DialogContent>

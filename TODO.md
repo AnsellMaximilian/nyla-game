@@ -1,14 +1,15 @@
 - [x] Slash animation frame
-- [ ] Email line read
+- [xx] Email line read
 - [x] Hit particle on enemy
 - [x] Hit cooldown on self
 - [x] One attack per slash
-- [ ] Boss attack(s)
+- [x] Boss attack(s)
 - [x] Player Health (hearts instead of bar)
 - [ ] Nylas Blast
 - [x] Game over screen
 - [x] Boss faces player
-- [ ] Dash cooldown
+- [x] Dash cooldown
+- [ ] Handle error
 
 ## Fixes
 
