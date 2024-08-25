@@ -64,6 +64,8 @@ export type PlayerNyla = Models.Document & {
 
   equipped_trinkets: string[];
 
+  equipped_trinket: string | null;
+
   last_trinket_spin: null | string;
 };
 

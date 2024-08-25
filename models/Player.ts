@@ -4,8 +4,9 @@ import { Falling, Jumping, Running, Sitting, State } from "./State";
 import { PlayerState } from "@/const/states";
 import { Dust } from "./Particle";
 import { PLAYER_BASE_STATS } from "@/const/player";
-import { PlayerNyla } from "@/type";
-import { getBoostedStat } from "@/utils/player";
+import { PlayerNyla, Trinket } from "@/type";
+import { getBoostedStat, getBoostStatFromTrinket } from "@/utils/player";
+import { TRINKETS } from "@/const/trinkets";
 
 class Player {
   game: Game;
@@ -94,6 +95,30 @@ class Player {
     this.maxHealth = maxHearts;
     this.currentHealth = maxHearts;
 
+    // handle trinket
+    const playerTrinket = TRINKETS.find((t) => t.id === nyla.equipped_trinket);
+
+    if (playerTrinket) {
+      this.damage += getBoostStatFromTrinket(playerTrinket, "ATTACK");
+      this.maxSpeed += getBoostStatFromTrinket(playerTrinket, "SPEED");
+      const addedHearts = getBoostStatFromTrinket(playerTrinket, "HEALTH");
+      this.maxHealth += addedHearts;
+      this.currentHealth = this.maxHealth;
+
+      this.nylaBlastDamage += getBoostStatFromTrinket(
+        playerTrinket,
+        "NYLA_BLAST"
+      );
+      this.dashCooldownDuration += getBoostStatFromTrinket(
+        playerTrinket,
+        "DASH_COOLDOWN"
+      );
+      this.nylaBlastMeter += getBoostStatFromTrinket(
+        playerTrinket,
+        "NYLA_BLAST_METER"
+      );
+    }
+
     // state
     this.states = [
       new Sitting(this),
@@ -119,6 +144,9 @@ class Player {
       speed: this.maxSpeed,
       health: this.maxHealth,
       attack: this.damage,
+      nylaBlastDmg: this.nylaBlastDamage,
+      nylaMeter: this.nylaBlastMeter,
+      dashCooldown: this.dashCooldownDuration,
     });
   }
 

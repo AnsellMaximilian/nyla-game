@@ -34,7 +34,7 @@ export const PLAYER_BASE_STATS: Record<BaseUpgradeProperty, number> = {
   HEALTH: 3,
   SPEED: 1,
   DASH_COOLDOWN: 2000,
-  NYLA_BLAST: 15,
+  NYLA_BLAST: 5,
   NYLA_BLAST_METER: 10000,
 };
 

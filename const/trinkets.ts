@@ -55,7 +55,7 @@ export const TRINKETS: Trinket[] = [
     boostedStat: "DASH_COOLDOWN",
     boostType: "DECREASE",
     image: "/images/trinkets/eternal-yarn-ball.png",
-    boostValue: 1500,
+    boostValue: 1000,
   },
   {
     id: "SUNBEAM_SCEPTER",
@@ -68,7 +68,7 @@ export const TRINKETS: Trinket[] = [
     boostedStat: "NYLA_BLAST",
     boostType: "INCREASE",
     image: "/images/trinkets/sunbeam-scepter.png",
-    boostValue: 300,
+    boostValue: 10,
   },
   {
     id: "MIDNIGHT_PURRY_FISHBONE",
@@ -76,12 +76,12 @@ export const TRINKETS: Trinket[] = [
     description:
       "This ancient fishbone is a relic from the mythical Midnight Purry fish, a creature older than the feline species itself. Captured by the Prince of Purrsia and later studied by cat mages, the bone was found to harbor immense magical potential. A powerful gemstone has been embedded in its eye socket to channel its energy. When worn, the Midnight Purry Fishbone grants Nyla extraordinary mystical abilities, enhancing her spell power and increasing her mana regeneration.",
     effect:
-      "Boosts spell power and enhances mana regeneration, allowing for more frequent use of magical abilities.",
+      "Channeling the magic potention results in reduceed the time required for Nyla to recharge her Nyla Blast.",
     available: true,
-    boostedStat: "NYLA_BLAST",
-    boostType: "INCREASE",
+    boostedStat: "NYLA_BLAST_METER",
+    boostType: "DECREASE",
     image: "/images/trinkets/midnight-purry-fishbone.png",
-    boostValue: 5,
+    boostValue: 5000,
   },
   {
     id: "FANG_OF_RUFFUS_CEASAR",
@@ -92,8 +92,8 @@ export const TRINKETS: Trinket[] = [
       "Grants a significant boost to strength and attack power, channeling the enduring spirit and might of the canine warrior.",
     available: true,
     boostedStat: "ATTACK",
-    boostType: "INCREASE",
+    boostType: "DECREASE",
     image: "/images/trinkets/fang-of-ruffus-caesar.png",
-    boostValue: 6,
+    boostValue: 150,
   },
 ];
