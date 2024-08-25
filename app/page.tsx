@@ -18,7 +18,7 @@ export default async function Home() {
         src="/images/nyla-logo.png"
         width={320}
         height={154}
-        className="w-[320px] mb-8"
+        className="w-[400px] mb-8"
         alt="logo"
       />
       {session?.grantRecordId ? (
