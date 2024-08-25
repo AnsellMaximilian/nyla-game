@@ -69,6 +69,7 @@ export default function GameRenderer({
           canvas.height,
           ctx,
           bossParams,
+          nyla as PlayerNyla,
           setGameResult
         );
         // game.animate();

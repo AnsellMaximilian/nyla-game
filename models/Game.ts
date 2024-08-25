@@ -4,8 +4,8 @@ import { InputHandler } from "./InputHandler";
 import { Background } from "./Background";
 import { Enemy, FlyingEnemy, GroundEnemy } from "./Enemy";
 import { UI } from "./UI";
-import { Boss, EmailBoss } from "@/lib/Boss";
-import { BossParams, GameResult } from "@/type";
+import { BossParams, GameResult, PlayerNyla } from "@/type";
+import { Boss, EmailBoss } from "./Boss";
 
 class Game {
   width: number;
@@ -47,6 +47,7 @@ class Game {
     height: number,
     context: CanvasRenderingContext2D,
     bossParams: BossParams,
+    nyla: PlayerNyla,
     setGameResult: React.Dispatch<React.SetStateAction<GameResult | null>>
   ) {
     this.width = width;
@@ -63,7 +64,7 @@ class Game {
 
     this.inputHandler = new InputHandler(this);
 
-    this.player = new Player(this);
+    this.player = new Player(this, nyla);
 
     this.ui = new UI(this);
 

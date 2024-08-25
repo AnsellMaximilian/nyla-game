@@ -4,6 +4,8 @@ import { Falling, Jumping, Running, Sitting, State } from "./State";
 import { PlayerState } from "@/const/states";
 import { Dust } from "./Particle";
 import { PLAYER_BASE_STATS } from "@/const/player";
+import { PlayerNyla } from "@/type";
+import { getBoostedStat } from "@/utils/player";
 
 class Player {
   game: Game;
@@ -36,6 +38,7 @@ class Player {
   isAttackOnCooldown = false;
   currentAttackFrame = 0;
   hasAttacked = false;
+  damage = PLAYER_BASE_STATS.ATTACK;
 
   // health
   maxHealth = PLAYER_BASE_STATS.HEALTH;
@@ -59,16 +62,21 @@ class Player {
   hasDashed = false;
   dashFrame = 0;
 
-  constructor(game: Game) {
+  constructor(game: Game, nyla: PlayerNyla) {
     this.game = game;
     this.width = 128;
     this.height = 128;
     this.x = 0;
     this.y = this.game.height - this.height - this.game.groundMargin;
     this.speed = 0;
-    this.maxSpeed = PLAYER_BASE_STATS.SPEED;
+    this.maxSpeed = getBoostedStat("SPEED", nyla.upgrades);
     this.vy = 0;
     this.weight = 0.5;
+    this.damage = getBoostedStat("ATTACK", nyla.upgrades);
+
+    const maxHearts = getBoostedStat("HEALTH", nyla.upgrades);
+    this.maxHealth = maxHearts;
+    this.currentHealth = maxHearts;
 
     // state
     this.states = [
@@ -90,6 +98,12 @@ class Player {
     // enter state
     this.currentState = this.states[0];
     this.currentState.enter();
+
+    console.log({
+      speed: this.maxSpeed,
+      health: this.maxHealth,
+      attack: this.damage,
+    });
   }
 
   update(keys: string[], deltaTime: number) {
@@ -346,7 +360,7 @@ class Player {
       this.game.boss.wasJustAttacked = true;
 
       if (this.game.boss.currentHealth - 1 > 0)
-        this.game.boss.currentHealth -= PLAYER_BASE_STATS.ATTACK;
+        this.game.boss.currentHealth -= this.damage;
       for (let i = 0; i < 10; i++) {
         this.game.boss.particles.push(
           new Dust(

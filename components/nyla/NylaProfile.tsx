@@ -24,6 +24,7 @@ const NylaStat = ({
   canSubtract = false,
   onAdd,
   onSubtract,
+  boosted,
 }: {
   stat: string;
   base: number;
@@ -33,12 +34,16 @@ const NylaStat = ({
   nyla: ClientPlayerNyla;
   canAdd?: boolean;
   canSubtract?: boolean;
+  boosted: number;
 }) => {
   return (
     <div className="flex justify-between text-2xl">
       <div>{stat}</div>
       <div className="flex gap-2 items-center">
-        <div className="font-bold">{base}</div>
+        <div className="font-bold flex gap-2 items-center">
+          <div>{base}</div>
+          <div className="text-lg font-normal">(+{boosted})</div>
+        </div>
         <div className="gap-2 flex items-center text-lg">
           <Button className="p-2" disabled={!canSubtract} onClick={onSubtract}>
             <Minus size={16} />
@@ -65,7 +70,17 @@ export default function NylaProfile({
 
   const [nyla, setNyla] = useState(nylaOld);
 
-  const availablePoints = calculateLevelFromXP(nyla.xp) - nyla.upgrades.length;
+  const availablePoints =
+    calculateLevelFromXP(nyla.xp) -
+    nyla.upgrades.length -
+    chosenUpgrades.length;
+
+  console.log({
+    availablePoints,
+    totalFromLevel: calculateLevelFromXP(nyla.xp),
+    totalCurrent: nyla.upgrades.length,
+    chosenTotal: chosenUpgrades.length,
+  });
 
   const handleUpgrade = async () => {
     const res = await axios.post("/api/nylas/upgrade", {
@@ -98,7 +113,7 @@ export default function NylaProfile({
             <h2 className="text-2xl font-bold">Upgrades</h2>
             <div className="mt-4 space-y-2">
               <NylaStat
-                canAdd={availablePoints - chosenUpgrades.length > 0}
+                canAdd={availablePoints > 0}
                 canSubtract={chosenUpgrades.includes("ATTACK")}
                 nyla={nyla}
                 onAdd={() => {
@@ -117,11 +132,11 @@ export default function NylaProfile({
                   });
                 }}
                 stat="Attack"
-                base={
-                  PLAYER_BASE_STATS.ATTACK +
+                base={PLAYER_BASE_STATS.ATTACK}
+                boosted={
                   baseUpgradeStats.ATTACK *
-                    (nyla as PlayerNyla).upgrades.filter((u) => u === "ATTACK")
-                      .length
+                  (nyla as PlayerNyla).upgrades.filter((u) => u === "ATTACK")
+                    .length
                 }
                 addition={`+${
                   baseUpgradeStats.ATTACK *
@@ -130,7 +145,7 @@ export default function NylaProfile({
               />
 
               <NylaStat
-                canAdd={availablePoints - chosenUpgrades.length > 0}
+                canAdd={availablePoints > 0}
                 canSubtract={chosenUpgrades.includes("HEALTH")}
                 nyla={nyla}
                 onAdd={() => {
@@ -149,11 +164,11 @@ export default function NylaProfile({
                   });
                 }}
                 stat="Health"
-                base={
-                  PLAYER_BASE_STATS.HEALTH +
+                base={PLAYER_BASE_STATS.HEALTH}
+                boosted={
                   baseUpgradeStats.HEALTH *
-                    (nyla as PlayerNyla).upgrades.filter((u) => u === "HEALTH")
-                      .length
+                  (nyla as PlayerNyla).upgrades.filter((u) => u === "HEALTH")
+                    .length
                 }
                 addition={`+${
                   baseUpgradeStats.HEALTH *
@@ -162,7 +177,7 @@ export default function NylaProfile({
               />
 
               <NylaStat
-                canAdd={availablePoints - chosenUpgrades.length > 0}
+                canAdd={availablePoints > 0}
                 canSubtract={chosenUpgrades.includes("SPEED")}
                 nyla={nyla}
                 onAdd={() => {
@@ -181,11 +196,11 @@ export default function NylaProfile({
                   });
                 }}
                 stat="Speed"
-                base={
-                  PLAYER_BASE_STATS.SPEED +
+                base={PLAYER_BASE_STATS.SPEED}
+                boosted={
                   baseUpgradeStats.SPEED *
-                    (nyla as PlayerNyla).upgrades.filter((u) => u === "SPEED")
-                      .length
+                  (nyla as PlayerNyla).upgrades.filter((u) => u === "SPEED")
+                    .length
                 }
                 addition={`+${
                   baseUpgradeStats.SPEED *

@@ -1,7 +1,7 @@
 import { SetupValues } from "@/type";
 
 export const BossBaseStats = {
-  health: 1000,
+  health: 500,
   attackSpeed: 5000,
   speed: 1,
   maxProjectiles: 1,
