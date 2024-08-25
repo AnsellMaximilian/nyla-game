@@ -9,7 +9,7 @@
 - [x] Game over screen
 - [x] Boss faces player
 - [x] Dash cooldown
-- [ ] Handle error
+- [x] Handle error
 
 ## Fixes
 

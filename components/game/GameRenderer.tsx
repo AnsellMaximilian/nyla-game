@@ -24,6 +24,8 @@ import { Button, buttonVariants } from "@/components/ui/button";
 import EmailView from "../email/EmailView";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
+import { redirect } from "next/navigation";
+import { useToast } from "../ui/use-toast";
 
 export default function GameRenderer({
   bossParams,
@@ -40,17 +42,26 @@ export default function GameRenderer({
 
   const [updatedNyla, setUpdatedNyla] = useState<ClientPlayerNyla | null>(null);
   const [handlingWin, setHandlingWin] = useState(false);
+  const { toast } = useToast();
 
   useEffect(() => {
     (async () => {
-      if (gameResult?.isWin) {
-        setHandlingWin(true);
-        const res = await axios.post("/api/nylas/handle-win");
+      try {
+        if (gameResult?.isWin) {
+          setHandlingWin(true);
+          const res = await axios.post("/api/nylas/handle-win");
 
-        const updatedNyla = res.data as ClientPlayerNyla;
+          const updatedNyla = res.data as ClientPlayerNyla;
 
-        setUpdatedNyla(updatedNyla);
-        setHandlingWin(false);
+          setUpdatedNyla(updatedNyla);
+          setHandlingWin(false);
+        }
+      } catch (error) {
+        toast({
+          title: "Error fetching emails",
+          description: "Please try again",
+        });
+        redirect("/");
       }
     })();
   }, [gameResult]);

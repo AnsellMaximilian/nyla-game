@@ -12,6 +12,8 @@ import { cn } from "@/lib/utils";
 import EmailLocked from "../animation/EmailLocked";
 import HomeButton from "../HomeButton";
 import { getDefaultBossParams } from "@/utils/boss";
+import { redirect } from "next/navigation";
+import { useToast } from "../ui/use-toast";
 
 export default function GameComponent() {
   const [bossParams, setBossParams] = useState<null | BossParams>(null);
@@ -23,26 +25,37 @@ export default function GameComponent() {
     useState(false);
 
   const [isLoading, setIsLoading] = useState(true);
+
+  const { toast } = useToast();
+
   useEffect(() => {
     (async () => {
-      const nylaRes = await axios.get("/api/nylas/get-nyla");
+      try {
+        const nylaRes = await axios.get("/api/nylas/get-nyla");
 
-      const nyla = nylaRes.data as ClientPlayerNyla;
+        const nyla = nylaRes.data as ClientPlayerNyla;
 
-      const emailsRes = await axios.get("/api/nylas/get-emails", {
-        params: {
-          limit: 5,
-          unread: true,
-        },
-      });
+        const emailsRes = await axios.get("/api/nylas/get-emails", {
+          params: {
+            limit: 5,
+            unread: true,
+          },
+        });
 
-      const emails = emailsRes.data as Email[];
+        const emails = emailsRes.data as Email[];
 
-      setNyla(nyla);
+        setNyla(nyla);
 
-      setLatestUnreadEmails(emails);
+        setLatestUnreadEmails(emails);
 
-      setIsLoading(false);
+        setIsLoading(false);
+      } catch (error) {
+        toast({
+          title: "Error fetching emails",
+          description: "Please try again",
+        });
+        redirect("/");
+      }
     })();
   }, []);
 
