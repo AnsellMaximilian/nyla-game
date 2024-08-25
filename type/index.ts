@@ -102,7 +102,7 @@ export type Trinket = {
   name: string;
   description: string;
   image: string;
-  boostedStat: keyof typeof PlayerStatNames;
+  boostedStat: BaseUpgradeProperty;
   boostValue: number;
   boostType: "INCREASE" | "DECREASE";
   available: boolean;

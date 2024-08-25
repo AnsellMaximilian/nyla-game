@@ -14,7 +14,7 @@ export const TRINKETS: Trinket[] = [
     boostedStat: "HEALTH",
     boostType: "INCREASE",
     image: "/images/trinkets/purr-trinity-collar.png",
-    boostValue: 4,
+    boostValue: 2,
   },
 
   {
@@ -25,10 +25,10 @@ export const TRINKETS: Trinket[] = [
     effect:
       "Increases attack damage, empowering Nyla to strike with the ferocity and precision of Lionessa, allowing her to deliver devastating blows to her enemies.",
     available: true,
-    boostedStat: "DAMAGE",
+    boostedStat: "ATTACK",
     boostType: "INCREASE",
     image: "/images/trinkets/claws-of-lionessa.png",
-    boostValue: 4,
+    boostValue: 100,
   },
 
   {
@@ -37,12 +37,12 @@ export const TRINKETS: Trinket[] = [
     description:
       " This bundle of catnip is no ordinary herb—it is the final harvest from the sacred Groves of Felinia, a hidden paradise believed to be the birthplace of all felinekind. The groves, once lush and vibrant, were said to be the source of endless vitality for the cats that roamed them. But when the ancient homeland of Felinia was lost to time, this bundle became the last remnant of that paradise. \nMiraculously, these leaves never wither, their fragrance as potent as the day they were plucked. Legends tell that the spirits of Felinia's first guardians infused this catnip with their eternal essence, ensuring it would endure forever. When Nyla inhales the timeless aroma of this sacred herb, she feels an unparalleled surge of energy and clarity, as if the very soul of Felinia is guiding her.",
     effect:
-      "Temporarily boosts attack speed and enhances focus, allowing Nyla to strike with the precision and swiftness of her ancestors. The effects of this trinket are everlasting, ensuring that the strength of Felinia’s final gift remains with Nyla in every battle.",
+      "Temporarily boosts speed and enhances focus, allowing Nyla to strike with the precision and swiftness of her ancestors. The effects of this trinket are everlasting, ensuring that the strength of Felinia’s final gift remains with Nyla in every battle.",
     available: true,
-    boostedStat: "ATTACK_SPEED",
+    boostedStat: "SPEED",
     boostType: "INCREASE",
     image: "/images/trinkets/last-verdant-essence-of-felinia.png",
-    boostValue: 4,
+    boostValue: 3,
   },
   {
     id: "ETERNAL_YARN_BALL",
@@ -50,12 +50,12 @@ export const TRINKETS: Trinket[] = [
     description:
       "A vibrant red yarn ball that never unravels, no matter how much it is played with. This yarn ball symbolizes the playful yet determined nature of modern cats, who can entertain themselves endlessly with the simplest of objects. Enchanted with a spell of infinite energy, this yarn ball grants Nyla boundless stamina and unwavering focus. No matter how long or fierce the battle, Nyla's strength never wanes, and her resolve remains unshaken.",
     effect:
-      "Increases stamina regeneration and reduces the stamina cost of abilities, allowing Nyla to maintain her energy and focus for longer periods during combat.",
+      "Decreases dash cooldown, allowing Nyla to dash more often to avoid attacks.",
     available: true,
-    boostedStat: "SPEED",
-    boostType: "INCREASE",
+    boostedStat: "DASH_COOLDOWN",
+    boostType: "DECREASE",
     image: "/images/trinkets/eternal-yarn-ball.png",
-    boostValue: 4,
+    boostValue: 1500,
   },
   {
     id: "SUNBEAM_SCEPTER",
@@ -65,10 +65,10 @@ export const TRINKETS: Trinket[] = [
     effect:
       "Significantly boosts Nyla Blast damage, allowing her to unleash a beam of pure, focused energy that obliterates enemies with the burning intensity of the sun.",
     available: true,
-    boostedStat: "NYLA_BLAST_DAMAGE",
+    boostedStat: "NYLA_BLAST",
     boostType: "INCREASE",
     image: "/images/trinkets/sunbeam-scepter.png",
-    boostValue: 4,
+    boostValue: 300,
   },
   {
     id: "MIDNIGHT_PURRY_FISHBONE",
@@ -78,7 +78,7 @@ export const TRINKETS: Trinket[] = [
     effect:
       "Boosts spell power and enhances mana regeneration, allowing for more frequent use of magical abilities.",
     available: true,
-    boostedStat: "NYLA_BLAST_DAMAGE",
+    boostedStat: "NYLA_BLAST",
     boostType: "INCREASE",
     image: "/images/trinkets/midnight-purry-fishbone.png",
     boostValue: 5,
@@ -91,7 +91,7 @@ export const TRINKETS: Trinket[] = [
     effect:
       "Grants a significant boost to strength and attack power, channeling the enduring spirit and might of the canine warrior.",
     available: true,
-    boostedStat: "DAMAGE",
+    boostedStat: "ATTACK",
     boostType: "INCREASE",
     image: "/images/trinkets/fang-of-ruffus-caesar.png",
     boostValue: 6,

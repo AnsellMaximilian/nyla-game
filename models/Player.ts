@@ -22,6 +22,7 @@ class Player {
 
   static image: CanvasImageSource | null = null;
   static attackImage: CanvasImageSource | null = null;
+  static nylaBlastImage: CanvasImageSource | null = null;
 
   // animation
   frameX: number;
@@ -61,6 +62,21 @@ class Player {
   isDashInCooldown = false;
   hasDashed = false;
   dashFrame = 0;
+
+  // nyla blast
+  nylaBlastTimer = 0;
+  nylaBlastMeter = PLAYER_BASE_STATS.NYLA_BLAST_METER;
+  nylaBlastDamage = PLAYER_BASE_STATS.NYLA_BLAST;
+  nylaBlastFrame: 0 | 1 = 0;
+  isNylaBlasting = false;
+  canNylaBlast = false;
+  nylaBlastDuration = 2000;
+  nylaBlastWidth = 400;
+  nylaBlastHeight = 64;
+  canNylaBlastDamage = true;
+  nylaBlastPulseInterval = 100;
+  nylaBlastPulseTimer = 0;
+  nylaTimerPassedMeterFirstTime = false;
 
   constructor(game: Game, nyla: PlayerNyla) {
     this.game = game;
@@ -111,6 +127,10 @@ class Player {
     if (this.isAttacking) {
       this.checkAttackCollisons();
     }
+
+    if (this.isNylaBlasting) {
+      this.checkBlastCollison();
+    }
     this.currentState.handleInput(keys);
     this.x += this.speed * (this.isInDash ? 20 : 1);
     if (keys.includes("ArrowRight")) {
@@ -136,6 +156,13 @@ class Player {
     if (keys.includes("z") || keys.includes("Z")) {
       if (!this.isDashInCooldown && !this.isInDash) {
         this.isInDash = true;
+      }
+    }
+
+    // nyla blast
+    if (keys.includes("x") || keys.includes("X")) {
+      if (this.canNylaBlast) {
+        this.isNylaBlasting = true;
       }
     }
 
@@ -184,6 +211,38 @@ class Player {
       }
     }
 
+    // nyla blast
+    if (!this.canNylaBlast) {
+      if (this.nylaBlastTimer > this.nylaBlastMeter) {
+        this.nylaBlastTimer = 0;
+        this.canNylaBlast = true;
+      } else if (deltaTime < this.nylaBlastMeter) {
+        this.nylaBlastTimer += deltaTime;
+      }
+    }
+
+    if (this.isNylaBlasting) {
+      if (this.nylaBlastTimer > this.nylaBlastDuration) {
+        this.nylaBlastTimer = 0;
+        this.canNylaBlast = false;
+        this.isNylaBlasting = false;
+      } else {
+        this.nylaBlastTimer += deltaTime;
+      }
+
+      if (this.nylaBlastPulseTimer > this.nylaBlastPulseInterval) {
+        this.nylaBlastPulseTimer = 0;
+
+        if (!this.canNylaBlastDamage) {
+          this.canNylaBlastDamage = true;
+        }
+      } else {
+        this.nylaBlastPulseTimer += deltaTime;
+      }
+    } else {
+      this.canNylaBlastDamage = true;
+    }
+
     this.y += this.vy;
 
     if (!this.onGround()) {
@@ -201,11 +260,14 @@ class Player {
         this.damageCooldownBlink = !this.damageCooldownBlink;
 
       if (this.isInDash) this.dashFrame = this.dashFrame === 0 ? 1 : 0;
+
+      if (this.isNylaBlasting)
+        this.nylaBlastFrame = this.nylaBlastFrame === 0 ? 1 : 0;
     } else {
       this.frameTimer += deltaTime;
     }
-
     // if (this.vy != 0) console.log({ vy: this.vy, y: this.y });
+    // console.log(this.nylaBlastTimer);
   }
 
   draw(ctx: CanvasRenderingContext2D) {
@@ -221,6 +283,17 @@ class Player {
         128,
         128
       );
+
+      // draw nyla blast hitbox
+
+      if (this.isNylaBlasting) {
+        ctx.strokeRect(
+          this.x + (this.isBackwards ? -this.nylaBlastWidth : this.width),
+          this.y,
+          this.nylaBlastWidth,
+          this.nylaBlastHeight
+        );
+      }
     } else {
       ctx.strokeStyle = "black";
     }
@@ -263,11 +336,26 @@ class Player {
         128
       );
     }
+
+    if (this.isNylaBlasting && Player.nylaBlastImage) {
+      ctx.drawImage(
+        Player.nylaBlastImage,
+        this.nylaBlastFrame * this.nylaBlastWidth,
+        (this.isBackwards ? 1 : 0) * this.nylaBlastHeight,
+        this.nylaBlastWidth,
+        this.nylaBlastHeight,
+        this.x + (this.isBackwards ? -this.nylaBlastWidth : this.width),
+        this.y,
+        this.nylaBlastWidth,
+        this.nylaBlastHeight
+      );
+    }
   }
 
   static async prepareAssets() {
     this.image = await loadImage("/images/nyla-spritesheet.png");
     this.attackImage = await loadImage("/images/slash.png");
+    this.nylaBlastImage = await loadImage("/images/nyla-blast.png");
   }
 
   onGround() {
@@ -359,8 +447,11 @@ class Player {
       this.hasAttacked = true;
       this.game.boss.wasJustAttacked = true;
 
-      if (this.game.boss.currentHealth - 1 > 0)
+      if (this.game.boss.currentHealth - 1 > 0) {
         this.game.boss.currentHealth -= this.damage;
+      } else {
+        this.game.boss.currentHealth = 0;
+      }
       for (let i = 0; i < 10; i++) {
         this.game.boss.particles.push(
           new Dust(
@@ -370,7 +461,45 @@ class Player {
           )
         );
       }
-    } else {
+    }
+  }
+
+  checkBlastCollison() {
+    // NYLA BLAST
+    const isBossXBeforeBlastHitBoxEnd =
+      this.game.boss.x <
+      this.x + (this.isBackwards ? 0 : this.width + this.nylaBlastWidth);
+    const isBossEndAfterBlastHitBoxX =
+      this.game.boss.x + this.game.boss.width >
+      this.x + (this.isBackwards ? -this.nylaBlastWidth : this.width);
+
+    if (
+      isBossXBeforeBlastHitBoxEnd &&
+      isBossEndAfterBlastHitBoxX &&
+      this.game.boss.y < this.y + this.height &&
+      this.game.boss.y + this.game.boss.height > this.y &&
+      this.isNylaBlasting &&
+      this.canNylaBlastDamage
+    ) {
+      // collision
+      this.game.boss.wasJustAttacked = true;
+      this.canNylaBlastDamage = false;
+
+      if (this.game.boss.currentHealth - this.nylaBlastDamage > 0) {
+        console.log("DAMAGING BOSS", this.nylaBlastDamage);
+        this.game.boss.currentHealth -= this.nylaBlastDamage;
+      } else {
+        this.game.boss.currentHealth = 0;
+      }
+      for (let i = 0; i < 1; i++) {
+        this.game.boss.particles.push(
+          new Dust(
+            this.game,
+            this.game.boss.x + this.game.boss.width / 2,
+            this.game.boss.y + this.game.boss.height / 2
+          )
+        );
+      }
     }
   }
 }

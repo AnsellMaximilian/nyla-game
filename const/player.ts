@@ -15,8 +15,9 @@ export const baseUpgradeStats = {
   ATTACK: 10,
   HEALTH: 1,
   SPEED: 0.5,
-  NYLA_BLAST: 50,
+  NYLA_BLAST: 1,
   DASH_COOLDOWN: 100,
+  NYLA_BLAST_METER: 2500,
 };
 
 export const PlayerBaseStats = {
@@ -33,7 +34,8 @@ export const PLAYER_BASE_STATS: Record<BaseUpgradeProperty, number> = {
   HEALTH: 3,
   SPEED: 1,
   DASH_COOLDOWN: 2000,
-  NYLA_BLAST: 200,
+  NYLA_BLAST: 15,
+  NYLA_BLAST_METER: 10000,
 };
 
 export enum PLAYER_STAT_OP {

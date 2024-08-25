@@ -12,7 +12,7 @@ import { cn } from "@/lib/utils";
 import EmailLocked from "../animation/EmailLocked";
 import HomeButton from "../HomeButton";
 import { getDefaultBossParams } from "@/utils/boss";
-import { redirect } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 import { useToast } from "../ui/use-toast";
 
 export default function GameComponent() {
@@ -27,6 +27,8 @@ export default function GameComponent() {
   const [isLoading, setIsLoading] = useState(true);
 
   const { toast } = useToast();
+
+  const router = useRouter();
 
   useEffect(() => {
     (async () => {
@@ -54,7 +56,7 @@ export default function GameComponent() {
           title: "Error fetching emails",
           description: "Please try again",
         });
-        redirect("/");
+        router.push("/");
       }
     })();
   }, []);

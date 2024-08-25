@@ -24,7 +24,7 @@ import { Button, buttonVariants } from "@/components/ui/button";
 import EmailView from "../email/EmailView";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
-import { redirect } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 import { useToast } from "../ui/use-toast";
 
 export default function GameRenderer({
@@ -43,6 +43,7 @@ export default function GameRenderer({
   const [updatedNyla, setUpdatedNyla] = useState<ClientPlayerNyla | null>(null);
   const [handlingWin, setHandlingWin] = useState(false);
   const { toast } = useToast();
+  const router = useRouter();
 
   useEffect(() => {
     (async () => {
@@ -61,7 +62,7 @@ export default function GameRenderer({
           title: "Error fetching emails",
           description: "Please try again",
         });
-        redirect("/");
+        router.push("/");
       }
     })();
   }, [gameResult]);

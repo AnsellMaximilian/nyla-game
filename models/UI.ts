@@ -56,6 +56,22 @@ export class UI {
     // ctx.strokeRect(20, 20, 300, 30);
     ctx.strokeRect(this.game.width - 300 - 20, 20, 300, 30);
 
+    // nyla blast meter
+    ctx.fillStyle = "blue";
+    ctx.fillRect(
+      20,
+      20 + img.height + 10,
+      200 *
+        (this.game.player.canNylaBlast
+          ? 1
+          : this.game.player.nylaBlastTimer / this.game.player.nylaBlastMeter),
+      30
+    );
+
+    ctx.lineWidth = 5;
+    ctx.strokeStyle = "black";
+    ctx.strokeRect(20, 20 + img.height + 10, 200, 30);
+
     if (this.game.debug) {
       ctx.textAlign = "right";
       ctx.font = this.fontSize - 10 + "px " + this.fontFamily;
