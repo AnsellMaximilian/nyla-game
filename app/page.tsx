@@ -12,7 +12,7 @@ export default async function Home() {
   const session = await decrypt(cookies().get("session")?.value);
 
   return (
-    <main className="grow flex flex-col items-center justify-center p-24 bg-blue-950 text-white vic-font text-xl text-center">
+    <main className="grow flex flex-col items-center justify-center p-24 text-white vic-font text-xl text-center">
       {/* <h1 className="text-6xl font-bold mb-8">NYLA the CAT</h1> */}
       <Image
         src="/images/nyla-logo.png"

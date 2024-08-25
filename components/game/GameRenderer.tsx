@@ -94,9 +94,8 @@ export default function GameRenderer({
       if (game) game.cleanUp();
     };
   }, [canvasRef]);
-  console.log(updatedNyla?.xp);
   return (
-    <div className=" grow bg-[#2E3B65] text-white flex items-center justify-center">
+    <div className=" grow text-white flex items-center justify-center">
       <div className="flex gap-8">
         <canvas ref={canvasRef} className=" border-black border-4"></canvas>
       </div>

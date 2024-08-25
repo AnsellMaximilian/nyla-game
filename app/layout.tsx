@@ -19,7 +19,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={cn(inter.className, "min-h-screen flex flex-col max-w-full")}
+        className={cn(
+          inter.className,
+          "min-h-screen flex flex-col max-w-full bg-blue-950 bg-[url('/images/home-bg-v2.png')] bg-[center_bottom] bg-no-repeat bg-cover"
+        )}
       >
         {children}
 
