@@ -15,7 +15,11 @@ export default function FriendItem({ friend }: { friend: Friend }) {
       />
       <div className="bg-gradient-to-b from-gray-400 via-gray-300 to-gray-400 text-black px-12 py-2 rounded-r-lg pl-8 -ml-6 w-full">
         <div className="font-bold">{friend.email}</div>
-        <div>Level {calculateLevelFromXP(friend.nyla.xp)}</div>
+        <div>
+          {friend.nyla
+            ? `Level ${calculateLevelFromXP(friend.nyla.xp)}`
+            : "Friend doesn't play :("}
+        </div>
       </div>
     </div>
   );

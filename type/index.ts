@@ -178,7 +178,7 @@ export type Contact = {
 export type NylasResponse<T> = {
   request_id: string;
   data: T[];
-  next_cursor: string;
+  next_cursor?: string;
 };
 
 export type Friend = {
@@ -187,5 +187,5 @@ export type Friend = {
     xp: number;
     trinkets: string[];
     upgrades: BaseUpgradeProperty[];
-  };
+  } | null;
 };
