@@ -129,9 +129,7 @@ export async function GET(req: NextRequest) {
     await createSession(grantRecord.$id);
 
     // Set up a session or redirect the user
-    const res = NextResponse.redirect(
-      `${process.env.NEXT_PUBLIC_BASE_URL}/game`
-    );
+    const res = NextResponse.redirect(`${process.env.NEXT_PUBLIC_BASE_URL}`);
 
     return res;
   } catch (error) {

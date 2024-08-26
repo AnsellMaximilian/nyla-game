@@ -23,5 +23,9 @@ export default function NylasLoginButton() {
 
     router.push(authUrl);
   };
-  return <Button onClick={handle}>Login</Button>;
+  return (
+    <button className="text-4xl hover:scale-105" onClick={handle}>
+      Login
+    </button>
+  );
 }
