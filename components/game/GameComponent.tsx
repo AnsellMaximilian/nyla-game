@@ -14,6 +14,7 @@ import HomeButton from "../HomeButton";
 import { getDefaultBossParams } from "@/utils/boss";
 import { redirect, useRouter } from "next/navigation";
 import { useToast } from "../ui/use-toast";
+import { extractStringFromEmailBody } from "@/utils/common";
 
 export default function GameComponent() {
   const [bossParams, setBossParams] = useState<null | BossParams>(null);

@@ -26,6 +26,7 @@ import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { redirect, useRouter } from "next/navigation";
 import { useToast } from "../ui/use-toast";
+import { extractStringFromEmailBody } from "@/utils/common";
 
 export default function GameRenderer({
   bossParams,
@@ -42,6 +43,8 @@ export default function GameRenderer({
 
   const [updatedNyla, setUpdatedNyla] = useState<ClientPlayerNyla | null>(null);
   const [handlingWin, setHandlingWin] = useState(false);
+  const [isPurrifyingEmail, setIsPurrifyingEmail] = useState(false);
+  const [purrifiedEmailBody, setPurrifiedEmailBody] = useState("");
   const { toast } = useToast();
   const router = useRouter();
 
@@ -51,11 +54,19 @@ export default function GameRenderer({
         if (gameResult?.isWin) {
           setHandlingWin(true);
           const res = await axios.post("/api/nylas/handle-win");
-
           const updatedNyla = res.data as ClientPlayerNyla;
 
           setUpdatedNyla(updatedNyla);
           setHandlingWin(false);
+
+          setIsPurrifyingEmail(true);
+          const purrRes = await axios.post("/api/nylas/purrify-email", {
+            emailBody: extractStringFromEmailBody(email.body),
+          });
+          const purrEmail = purrRes.data as { purrifiedEmail: string };
+
+          setPurrifiedEmailBody(purrEmail.purrifiedEmail);
+          setIsPurrifyingEmail(false);
         }
       } catch (error) {
         toast({
@@ -63,6 +74,9 @@ export default function GameRenderer({
           description: "Please try again",
         });
         router.push("/");
+      } finally {
+        setIsPurrifyingEmail(false);
+        setHandlingWin(false);
       }
     })();
   }, [gameResult]);
@@ -155,7 +169,13 @@ export default function GameRenderer({
               </div>
             </div>
             <div className="">
-              {gameResult?.isWin && <EmailView email={email} />}
+              {gameResult?.isWin && (
+                <EmailView
+                  email={email}
+                  purrifiedVersion={purrifiedEmailBody}
+                  isPurrifying={isPurrifyingEmail}
+                />
+              )}
             </div>
 
             <div className="mt-4 text-right">

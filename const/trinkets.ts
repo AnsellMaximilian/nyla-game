@@ -92,7 +92,7 @@ export const TRINKETS: Trinket[] = [
       "Grants a significant boost to strength and attack power, channeling the enduring spirit and might of the canine warrior.",
     available: true,
     boostedStat: "ATTACK",
-    boostType: "DECREASE",
+    boostType: "INCREASE",
     image: "/images/trinkets/fang-of-ruffus-caesar.png",
     boostValue: 150,
   },
