@@ -1,4 +1,3 @@
-import { BASE_XP_GAINED } from "@/const/leveling";
 import { TRINKETS } from "@/const/trinkets";
 import { config } from "@/lib/appwrite";
 import { databases } from "@/lib/appwriteNode";

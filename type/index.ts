@@ -48,6 +48,7 @@ export type GrantRecord = Models.Document & {
   scope: string;
   token_type: string;
   id_token: string;
+  invited_emails: string[];
 };
 
 export type PlayerNyla = Models.Document & {
@@ -188,4 +189,13 @@ export type Friend = {
     trinkets: string[];
     upgrades: BaseUpgradeProperty[];
   } | null;
+};
+
+export type SendEmailRequestBody = {
+  subject: string;
+  body: string;
+  to: {
+    email: string;
+    name: string;
+  }[];
 };

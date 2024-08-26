@@ -1,10 +1,18 @@
 import { config } from "@/lib/appwrite";
 import { databases } from "@/lib/appwriteNode";
 import { decrypt } from "@/lib/session";
-import { Contact, Email, Friend, GrantRecord, NylasResponse } from "@/type";
+import {
+  Contact,
+  Email,
+  Friend,
+  GrantRecord,
+  NylasResponse,
+  PlayerNyla,
+} from "@/type";
 import axios from "axios";
 import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
+import { Query } from "node-appwrite";
 import sanitizeHtml from "sanitize-html";
 
 // import Nylas from 'nylas'
@@ -49,12 +57,29 @@ export async function GET(req: NextRequest) {
 
   const contacts = resFriends.data as NylasResponse<Contact>;
 
+  const playerNylasRes = await databases.listDocuments(
+    config.dbId,
+    config.playerNylaCollectionId,
+    [
+      Query.limit(100),
+      Query.equal(
+        "email",
+        contacts.data.map((c) => c.emails.map((e) => e.email)).flat()
+      ),
+    ]
+  );
+
+  const playerNylas = playerNylasRes.documents as PlayerNyla[];
+
   return NextResponse.json({
     ...contacts,
     data: contacts.data.map((c) => {
+      const foundNyla = playerNylas.find((pn) =>
+        c.emails.some((e) => e.email === pn.email)
+      );
       const friend: Friend = {
         email: c.emails[0] ? c.emails[0].email : "No email",
-        nyla: null,
+        nyla: foundNyla ? foundNyla : null,
       };
 
       return friend;
