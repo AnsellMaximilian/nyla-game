@@ -1,4 +1,4 @@
-import { ClientPlayerNyla, Email, PlayerNyla } from "@/type";
+import { ClientPlayerNyla, Email, Friend, PlayerNyla } from "@/type";
 
 export const exampleEmail: Email = {
   starred: false,
@@ -48,3 +48,30 @@ export const examplePlayerNyla: ClientPlayerNyla = {
 
   last_trinket_spin: "2024-08-25T02:06:09.518+00:00",
 };
+
+export const exampleFriends: Friend[] = [
+  {
+    email: "catlover@example.com",
+    nyla: {
+      xp: 1500,
+      trinkets: ["PURR_TRINITY_COLLAR", "CLAWS_OF_LIONESSA"],
+      upgrades: ["ATTACK", "HEALTH"],
+    },
+  },
+  {
+    email: "meowmaster@example.com",
+    nyla: {
+      xp: 2300,
+      trinkets: ["LAST_VERDANT_ESSENCE_OF_FELINIA"],
+      upgrades: ["SPEED", "NYLA_BLAST"],
+    },
+  },
+  {
+    email: "whiskerwhiz@example.com",
+    nyla: {
+      xp: 3200,
+      trinkets: ["ETERNAL_YARN_BALL", "SUNBEAM_SCEPTER"],
+      upgrades: ["DASH_COOLDOWN", "HEALTH", "NYLA_BLAST_METER"],
+    },
+  },
+];

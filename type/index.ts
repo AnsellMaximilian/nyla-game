@@ -180,3 +180,12 @@ export type NylasResponse<T> = {
   data: T[];
   next_cursor: string;
 };
+
+export type Friend = {
+  email: string;
+  nyla: {
+    xp: number;
+    trinkets: string[];
+    upgrades: BaseUpgradeProperty[];
+  };
+};
