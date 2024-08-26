@@ -54,7 +54,7 @@ export default function BossSetup({
             </p>
           </div>
           <div className="flex gap-8 mt-4">
-            <div className="flex flex-col gap-2">
+            <div className="flex flex-col gap-2 max-w-[500px]">
               <div className="w-[192px] h-[192px] overflow-hidden">
                 <Image
                   src="/images/boss-image-v3.png"
@@ -146,9 +146,6 @@ export default function BossSetup({
               </div>
             </div>
           </div>
-        </div>
-        <div>
-          <h2 className="text-4xl font-bold">Nyla Artifacts/Trinkets</h2>
         </div>
       </div>
       <div className="flex mt-8">
