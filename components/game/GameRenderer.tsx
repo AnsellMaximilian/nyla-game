@@ -65,6 +65,17 @@ export default function GameRenderer({
           });
           const purrEmail = purrRes.data as { purrifiedEmail: string };
 
+          // marking email as read
+          try {
+            await axios.post("/api/nylas/read-email", {
+              emailId: email.id,
+            });
+          } catch (error) {
+            toast({
+              title: "Failed to mark email as read",
+              description: "Don't worry, you still got your xp.",
+            });
+          }
           setPurrifiedEmailBody(purrEmail.purrifiedEmail);
           setIsPurrifyingEmail(false);
         }
