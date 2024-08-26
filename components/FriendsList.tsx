@@ -1,6 +1,11 @@
 "use client";
 
-import { Friend, NylasResponse } from "@/type";
+import {
+  Friend,
+  NylasResponse,
+  PlayerNyla,
+  SendEmailRequestBody,
+} from "@/type";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useToast } from "./ui/use-toast";
@@ -10,11 +15,19 @@ import FriendItem from "./FriendItem";
 import Link from "next/link";
 import { Button } from "./ui/button";
 
-export default function FriendsList() {
+export default function FriendsList({
+  nyla,
+  invitedEmails,
+}: {
+  nyla: PlayerNyla;
+  invitedEmails: string[];
+}) {
   const [currentPageToken, setCurrentPageToken] = useState<null | string>(null);
   const [pageTokens, setPageTokens] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [currentFriendsList, setCurrentFriendsList] = useState<Friend[]>([]);
+  const [isInviting, setIsInviting] = useState(false);
+  const [localInvitedEmails, setLocalInvitedEmails] = useState(invitedEmails);
 
   const { toast } = useToast();
   const router = useRouter();
@@ -71,10 +84,36 @@ export default function FriendsList() {
       ? pageTokens[currentIndex + 1]
       : undefined;
 
-  //   console.log({
-  //     currentPageToken,
-  //     pageTokens,
-  //   });
+  const invite = async (email: string) => {
+    setIsInviting(true);
+    const body: SendEmailRequestBody = {
+      body: `Head over to https://nylathecat.vercel.app
+      
+      Level up and upgrade your own Nyla and collect unique trinkets!
+      `,
+      subject: "Join me in playing Nyla the Cat!",
+      to: [{ email: email, name: email }],
+    };
+    const res = await axios.post("/api/nylas/send-email", body);
+
+    const inviteResult = res.data as { success: boolean };
+
+    console.log({ inviteResult });
+
+    if (!inviteResult.success) {
+      toast({
+        title: "Error inviting",
+        variant: "destructive",
+      });
+    } else {
+      setLocalInvitedEmails((prev) => [...prev, email]);
+      toast({
+        title: `Invitation sent to ${email}`,
+      });
+    }
+
+    setIsInviting(false);
+  };
 
   return (
     <Container>
@@ -89,14 +128,21 @@ export default function FriendsList() {
         ) : (
           <div className="grid grid-cols-2 md:grid-cols-3  gap-2 text-lg">
             {currentFriendsList.map((f) => (
-              <FriendItem key={f.email} friend={f} />
+              <FriendItem
+                key={f.email}
+                friend={f}
+                hasBeenInvited={
+                  localInvitedEmails.includes(f.email) || isInviting
+                }
+                invite={invite}
+              />
             ))}
           </div>
         )}
       </div>
       <div className="flex gap-4 justify-end">
         <Button
-          disabled={currentPageToken === null}
+          disabled={currentPageToken === null || isLoading}
           onClick={() => {
             getFriends(prevToken);
           }}
@@ -104,7 +150,7 @@ export default function FriendsList() {
           Prev
         </Button>
         <Button
-          disabled={!!!nextToken}
+          disabled={!!!nextToken || isLoading}
           onClick={() => {
             getFriends(nextToken);
           }}

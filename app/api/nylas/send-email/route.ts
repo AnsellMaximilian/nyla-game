@@ -22,6 +22,13 @@ export async function POST(req: NextRequest) {
       session.grantRecordId
     )) as GrantRecord;
 
+    if (grantRecord.invited_emails.includes(body.to[0].email)) {
+      return NextResponse.json(
+        { error: "Has already been invited by you" },
+        { status: 401 }
+      );
+    }
+
     const res = await axios.post(
       `https://api.eu.nylas.com/v3/grants/${grantRecord.grant_id}/messages/send`,
       body,
@@ -33,8 +40,21 @@ export async function POST(req: NextRequest) {
         },
       }
     );
+
+    console.log(res.data);
+
+    (await databases.updateDocument(
+      config.dbId,
+      config.grantCollectionId,
+      session.grantRecordId,
+      {
+        invited_emails: [...grantRecord.invited_emails, body.to[0].email],
+      }
+    )) as GrantRecord;
+    console.log("BOUT to invite u");
     return NextResponse.json({ success: true });
   } catch (error) {
+    if (error instanceof Error) console.log(error.message);
     return NextResponse.json({ success: false });
   }
 

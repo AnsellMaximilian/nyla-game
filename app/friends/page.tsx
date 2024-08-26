@@ -20,11 +20,21 @@ export default async function Page() {
   if (!session?.grantRecordId) {
     redirect("/");
   }
+  const grant = (await databases.getDocument(
+    config.dbId,
+    config.grantCollectionId,
+    session?.grantRecordId
+  )) as GrantRecord;
+  const nyla = (await databases.getDocument(
+    config.dbId,
+    config.playerNylaCollectionId,
+    session?.grantRecordId
+  )) as PlayerNyla;
 
   return (
     <div className="container mx-auto p-8">
       <HomeButton className="mb-4" />
-      <FriendsList />
+      <FriendsList nyla={nyla} invitedEmails={grant.invited_emails} />
     </div>
   );
 }
