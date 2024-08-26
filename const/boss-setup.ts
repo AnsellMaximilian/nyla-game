@@ -48,3 +48,5 @@ export const SETUP_VALUES: { [key: string]: SetupValues } = {
     max: 15000,
   },
 };
+
+export const XP_BOOST_AMOUNT = 0.15;

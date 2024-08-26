@@ -7,6 +7,7 @@ import { Slider } from "@/components/ui/slider";
 import { Switch } from "@/components/ui/switch";
 import { SETUP_VALUES, SetupNames } from "@/const/boss-setup";
 import { BossParams, Email } from "@/type";
+import { getXpBoost } from "@/utils/boss";
 
 export default function BossSetup({
   setBossParams,
@@ -150,7 +151,17 @@ export default function BossSetup({
       </div>
       <div className="flex mt-8">
         <div className="ml-auto space-y-4 text-right">
-          <div className="text-4xl mt-auto">Exp Boost: &times;23</div>
+          <div className="text-4xl mt-auto">
+            Exp Boost: &times;
+            {getXpBoost({
+              attackSpeedBoost,
+              speedBoost,
+              healthBoost,
+              maxProjectiles,
+              projectileLifetime,
+              projectileBounces,
+            })}
+          </div>
 
           <Button className="text-3xl px-8 py-8" onClick={handleProceed}>
             Proceed

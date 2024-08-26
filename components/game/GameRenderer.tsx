@@ -53,7 +53,9 @@ export default function GameRenderer({
       try {
         if (gameResult?.isWin) {
           setHandlingWin(true);
-          const res = await axios.post("/api/nylas/handle-win");
+          const res = await axios.post("/api/nylas/handle-win", {
+            bossParams,
+          });
           const updatedNyla = res.data as ClientPlayerNyla;
 
           setUpdatedNyla(updatedNyla);
