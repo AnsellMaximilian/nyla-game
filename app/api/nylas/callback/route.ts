@@ -31,7 +31,9 @@ export async function GET(req: NextRequest) {
           code: code,
           client_id: process.env.NEXT_PUBLIC_NYLAS_CLIENT_ID,
           client_secret: process.env.NYLAS_API_KEY,
-          redirect_uri: "http://localhost:3000/api/nylas/callback",
+          redirect_uri: `${String(
+            process.env.NEXT_PUBLIC_BASE_URL
+          )}/api/nylas/callback`,
           grant_type: "authorization_code",
           code_verifier: "nylas",
         }),

@@ -10,7 +10,9 @@ export default function NylasLoginButton() {
   const handle = () => {
     const baseUrl = "https://api.eu.nylas.com/v3/connect/auth";
     const clientId = String(process.env.NEXT_PUBLIC_NYLAS_CLIENT_ID);
-    const callbackURL = "http://localhost:3000/api/nylas/callback";
+    const callbackURL = `${String(
+      process.env.NEXT_PUBLIC_BASE_URL
+    )}/api/nylas/callback`;
 
     const responseType = "code";
     const provider = "google";
