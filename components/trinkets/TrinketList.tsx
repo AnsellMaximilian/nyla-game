@@ -17,6 +17,7 @@ import axios from "axios";
 import Spinner from "./Spinner";
 import { Separator } from "@radix-ui/react-separator";
 import { useToast } from "../ui/use-toast";
+import SpinnerV2 from "./SpinnerV2";
 
 export default function TrinketList({ nyla }: { nyla: PlayerNyla }) {
   const [selectedTrinket, setSelectedTrinket] = useState<Trinket>(TRINKETS[0]);
@@ -239,7 +240,7 @@ export default function TrinketList({ nyla }: { nyla: PlayerNyla }) {
       </div>
 
       {isSpinningForTrinket && receivedTrinket && (
-        <Spinner
+        <SpinnerV2
           trinkets={TRINKETS}
           selectedTrinketId={receivedTrinket.id}
           onDone={() => {
