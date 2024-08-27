@@ -7,6 +7,7 @@ import { cookies } from "next/headers";
 import Image from "next/image";
 import { logout } from "./actions/auth";
 import Link from "next/link";
+import ControlsDialog from "@/components/ControlsDialog";
 
 export default async function Home() {
   const session = await decrypt(cookies().get("session")?.value);
@@ -32,6 +33,8 @@ export default async function Home() {
           <Link href="/friends" className="hover:scale-105">
             Friends
           </Link>
+          <ControlsDialog />
+
           <form action={logout}>
             <button type="submit" className="hover:scale-105">
               Log out
