@@ -244,12 +244,14 @@ export default function TrinketList({ nyla }: { nyla: PlayerNyla }) {
           trinkets={TRINKETS}
           selectedTrinketId={receivedTrinket.id}
           onDone={() => {
-            setIsSpinningForTrinket(false);
-            setLocalNyla((prev) => ({
-              ...prev,
-              trinkets: [...prev.trinkets, receivedTrinket.id],
-            }));
-            setReceivedTrinket(null);
+            setTimeout(() => {
+              setIsSpinningForTrinket(false);
+              setLocalNyla((prev) => ({
+                ...prev,
+                trinkets: [...prev.trinkets, receivedTrinket.id],
+              }));
+              setReceivedTrinket(null);
+            }, 5000);
           }}
         />
       )}
