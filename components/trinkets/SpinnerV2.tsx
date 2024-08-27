@@ -33,6 +33,10 @@ export default function SpinnerV2({
         );
         setCurrentIndex(selectedIndex);
         setIsFinalSelected(true);
+
+        landingTimeout = setTimeout(() => {
+          onDone();
+        }, 5000);
       }, 10000);
     }
 
